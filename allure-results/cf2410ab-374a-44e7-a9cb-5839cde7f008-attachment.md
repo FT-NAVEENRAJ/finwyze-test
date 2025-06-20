@@ -1,0 +1,113 @@
+# Test info
+
+- Name: TC_01: Login with Valid Credentials
+- Location: C:\Testing Details\Naveenraj\SampleTest\PlaywrightAutomation\tests\02-login.spec.js:13:1
+
+# Error details
+
+```
+TimeoutError: page.goto: Timeout 45000ms exceeded.
+Call log:
+  - navigating to "https://cd-r3.finwyze.com/", waiting until "load"
+
+    at C:\Testing Details\Naveenraj\SampleTest\PlaywrightAutomation\tests\02-login.spec.js:20:17
+```
+
+# Test source
+
+```ts
+   1 | import { test, expect } from "@playwright/test";
+   2 | import LoginPage from "../pages/loginPage.js";
+   3 |
+   4 |
+   5 | let browser;
+   6 | let page;
+   7 |
+   8 | test.beforeAll(async ({ browser }) => {
+   9 |     const context = await browser.newContext();
+  10 |     page = await context.newPage();
+  11 | });
+  12 |
+  13 | test('TC_01: Login with Valid Credentials',async ({ page }, testInfo)=> {
+  14 |     testInfo.annotations.push({ type: 'tag', description: 'smoke' });
+  15 |     testInfo.annotations.push({ type: 'tag', description: 'sanity' });
+  16 |     testInfo.annotations.push({ type: 'tag', description: 'regression' });
+  17 |    
+  18 |      const expectedURL = 'https://cd-r3.finwyze.com/';
+  19 |      const loginPage = new LoginPage(page);
+> 20 |      await page.goto(expectedURL);
+     |                 ^ TimeoutError: page.goto: Timeout 45000ms exceeded.
+  21 |          await loginPage.login("Domestic Custody","TS.JAMA.AMCRM01@FINTUPLE.COM", "Fintuple@1", "a2C4dE");
+  22 |          await loginPage.enterOTP("857362");
+  23 |          await new Promise(resolve => setTimeout(resolve, 3000));
+  24 | });
+  25 |
+  26 | test('TC_02: Login with Invalid Credentials' , async({page}) =>{
+  27 |      const expectedURL = 'https://cd-r5.finwyze.com/';
+  28 |      const loginPage = new LoginPage(page);
+  29 |      await page.goto(expectedURL);
+  30 |      await loginPage.login("Domestic Custody","DORABUJJI214@GMAIL.COM", "Fintuple@13", "a2C4dE");
+  31 |      await expect(page.locator('//div[text()="The email address or password is incorrect"]')).toHaveText('The email address or password is incorrect');
+  32 |      
+  33 | });
+  34 |
+  35 | test('TC_03: Login with Empty Fields @regression' , async({page}) =>{
+  36 |     const expectedURL = 'https://cd-r5.finwyze.com/';
+  37 |     const loginPage = new LoginPage(page);
+  38 |     await page.goto(expectedURL);
+  39 |     await loginPage.clickVerify();
+  40 |     await expect(page.locator('//small[@id="custodyErrors"]')).toHaveText('Custody is required');
+  41 |     await expect(page.locator('//small[@id="emailErrors"]')).toHaveText('Email Address is required');
+  42 |     await expect(page.locator('//small[@id="captchaError"]')).toHaveText('Captcha is required');
+  43 |     await expect(page.locator('//small[@id="passwordError"]')).toHaveText('Password is required'); 
+  44 |   
+  45 | });
+  46 |
+  47 | test('TC_04: Login with enter wrong Captcha Validation', async({page}) =>{
+  48 |     const expectedURL = 'https://cd-r5.finwyze.com/';
+  49 |     const loginPage = new LoginPage(page);
+  50 |     await page.goto(expectedURL);
+  51 |     await loginPage.login("Domestic Custody","DORABUJJI214@GMAIL.COM", "Fintuple@1", "d21byu");
+  52 |     await expect(page.locator('//div[@id="capErr"]')).toHaveText('Invalid captcha');
+  53 |    
+  54 | });
+  55 |
+  56 | test('TC_05: Login Session Timeout', async({page}) =>{
+  57 |     const expectedURL = 'https://cd-r5.finwyze.com/';
+  58 |     const loginPage = new LoginPage(page);
+  59 |     await page.goto(expectedURL);
+  60 |     await loginPage.login("Domestic Custody","DORABUJJI2104@GMAIL.COM", "Fintuple@1", "a2C4dE");
+  61 |     await page.waitForTimeout(900000);
+  62 |     await page.reload();
+  63 |     await expect(page).toHaveURL(expectedURL);
+  64 |     await expect(page.locator('.error-message')).toHaveText('Session expired, please log in again');
+  65 |    
+  66 | });
+  67 |
+  68 | test('TC_06: Multiple Failed Login Attempts', async({page}) =>{
+  69 |     const expectedURL = 'https://cd-r5.finwyze.com/';
+  70 |     const loginPage = new LoginPage(page);
+  71 |     await page.goto(expectedURL);
+  72 |     for (let i = 0; i < 5; i++) {
+  73 |     await loginPage.login("Domestic Custody","DORABUJJI2104@GMAIL.COM", "Fintuple@12334", "a2C4dE");
+  74 |     }
+  75 |     await expect(page.locator('//div[@id="passwordErr"]')).toHaveText('You have made 1 incorrect login attempt. After 3 incorrect attempts, your account will be locked for 60 minutes.');
+  76 | });
+  77 |
+  78 | test('TC_07: Forgot Password functionality', async ({ page }) => {
+  79 |     const expectedURL = 'https://cd-r5.finwyze.com/';
+  80 |     const loginPage = new LoginPage(page);
+  81 |     await page.goto(expectedURL);
+  82 |     await loginPage.clickForgotPassword("TS.JAMA.amcrm01@FINTUPE.COM");
+  83 |     await expect(page.locator('//div[@id="usernameErr"]')).toHaveText('Email Address is invalid');
+  84 |
+  85 | });
+  86 |
+  87 |
+  88 |
+  89 |
+  90 |
+  91 |
+  92 |
+  93 |
+```

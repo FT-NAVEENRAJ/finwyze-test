@@ -1,0 +1,221 @@
+# Test info
+
+- Name: LAM ID Module Tests >> Checker Flow >> Maker Flow >> TC_05_02: Update the details to click Resubmit the task for Maker 
+- Location: C:\Testing Details\Naveenraj\SampleTest\PlaywrightAutomation\tests\01-lam.spec.js:151:5
+
+# Error details
+
+```
+Error: page.goto: Target page, context or browser has been closed
+Call log:
+  - navigating to "https://cdi-r5.finwyze.com/", waiting until "load"
+
+    at C:\Testing Details\Naveenraj\SampleTest\PlaywrightAutomation\tests\01-lam.spec.js:147:18
+```
+
+# Test source
+
+```ts
+   47 |       
+   48 |
+   49 |     });
+   50 |   });
+   51 |   test.describe('Maker Flow', () => {
+   52 |     test.beforeEach(async ({ page }) => {
+   53 |       const lamMaker = new LAM_LoginPage(page);
+   54 |       await page.goto('https://cdi-r5.finwyze.com');
+   55 |       await lamMaker.loginLamMaker('lam.id.mkr@fintuple.com', 'Icici@124');
+   56 |     });
+   57 |
+   58 |   test('TC_01_02: Create a Duplicate User for Maker', async({page})=>{
+   59 |
+   60 |     page2 = await Promise.all([
+   61 |       page.waitForEvent("popup"), 
+   62 |       page.locator('//a[text()="View Task"]').click(), 
+   63 |       ]).then(([newPage]) => newPage);
+   64 |       await page2.waitForLoadState()
+   65 |
+   66 |       const lamPopup = new LAM_LoginPage(page2);
+   67 |       await lamPopup.AddUser("Arunachalam", "9080365952");
+   68 |       await page2.locator('//input[@id="internal_user_employeeId"]').fill(empId);
+   69 |       await new Promise(resolve => setTimeout(resolve, 1000));
+   70 |       await page2.locator('//input[@id="internal_user_emailAddress"]').fill(generatedEmail);
+   71 |       await new Promise(resolve => setTimeout(resolve, 2000));
+   72 |       await page2.locator('.ng-input > input').first().click();
+   73 |       await page2.locator('ng-select').filter({ hasText: 'No items found' }).getByRole('textbox').fill('chenn');
+   74 |       await page2.getByText('Chennai Main Branch').click();
+   75 |       await page2.locator('#internal_user_applications').getByRole('textbox').click();
+   76 |       await page2.getByText('USER MANAGEMENT').click();
+   77 |       await page2.locator('#internal_user_roles').getByRole('textbox').click();
+   78 |       await page2.getByText('LAM ID Maker', { exact: true }).click();
+   79 |       await new Promise(resolve => setTimeout(resolve, 2000));
+   80 |       await page2.locator('//button[@id="internal_user_submit"]').click();
+   81 |       await new Promise(resolve => setTimeout(resolve, 5000)); 
+   82 |       const duplicateUserPopup = page2.getByRole('alert', { name: 'Task is already exist in checker queue' });
+   83 |       await new Promise(resolve => setTimeout(resolve, 500));
+   84 |      // console.log("Email address validation should be displayed in the popup message");
+   85 |       // const toastText = await duplicateUserPopup.textContent();
+   86 |       // console.log("Toast Message:", toastText?.trim());
+   87 |       await expect(duplicateUserPopup).toHaveText("Task is already exist in checker queue");
+   88 |
+   89 |
+   90 |
+   91 |   });
+   92 | });
+   93 |
+   94 |   test.describe('Checker Flow', () => {
+   95 |     test.beforeEach(async ({ page }) => {
+   96 |       const lamChecker = new LAM_LoginPage(page);
+   97 |       await page.goto('https://cdi-r5.finwyze.com');
+   98 |       await lamChecker.loginLamMaker('lam.id.ckr@fintuple.com', 'Icici@124');
+   99 |     });
+  100 |
+  101 |     test('TC_01_02:Approve user as Checker', async ({ page }) => {
+  102 |       await new Promise(resolve => setTimeout(resolve, 3000));
+  103 |           page2 = await Promise.all([
+  104 |             page.waitForEvent("popup"), 
+  105 |             page.locator('//a[text()="View Task"]').click(), 
+  106 |             ]).then(([newPage]) => newPage);
+  107 |             await page2.waitForLoadState();
+  108 |             await new Promise(resolve => setTimeout(resolve, 3000));
+  109 |
+  110 |       await page2.locator('(//i[@id="dropdown"])[1]').click();
+  111 |       await page2.getByRole('button', { name: ' Approve/Reject' }).click();
+  112 |       await new Promise(resolve => setTimeout(resolve, 1000));
+  113 |       await page2.locator('#task_internal_user_comments').click();
+  114 |       await new Promise(resolve => setTimeout(resolve, 2000));
+  115 |       await page2.locator('#task_internal_user_comments').fill('APPROVE');
+  116 |       await new Promise(resolve => setTimeout(resolve, 1000));
+  117 |       await page2.getByRole('button', { name: 'Approve' }).click();
+  118 |       await new Promise(resolve => setTimeout(resolve, 2000));
+  119 |     });
+  120 |   });
+  121 |
+  122 |   test.describe('Checker Flow',()=>{
+  123 |     test.beforeEach(async ({ page }) => {
+  124 |       const lamChecker = new LAM_LoginPage(page);
+  125 |       await page.goto('https://cdi-r5.finwyze.com');
+  126 |       await lamChecker.loginLamMaker('lam.id.ckr@fintuple.com', 'Icici@124');
+  127 |     });
+  128 |     test("TC_05_01: Reject Task for custody Checker",async({})=>{
+  129 |       await new Promise(resolve => setTimeout(resolve, 3000));
+  130 |       page2 = await Promise.all([
+  131 |         page.waitForEvent("popup"), 
+  132 |         page.locator('//a[text()="View Task"]').click(), 
+  133 |         ]).then(([newPage]) => newPage);
+  134 |         await page2.waitForLoadState();
+  135 |         await new Promise(resolve => setTimeout(resolve, 3000));
+  136 |       await page2.locator('//input[@id="search"]').fill(generatedEmail);
+  137 |       await page2.locator('//i[@id="dropdown"]').click();
+  138 |       await page2.locator('//button[@id="Activate/Deactivate"]').click();
+  139 |       await page2.locator('//textarea[@id="internal_user_comment"]').fill("Deactivate the User");
+  140 |       await page2.locator('//button[@id="task_activate_Reject"]').click();
+  141 |       await new Promise(resolve => setTimeout(resolve, 2000));
+  142 |     });
+  143 |   
+  144 |   test.describe('Maker Flow',()=>{
+  145 |     test.beforeEach(async({page})=>{
+  146 |       const lamMaker = new LAM_LoginPage(page);
+> 147 |       await page.goto('https://cdi-r5.finwyze.com');
+      |                  ^ Error: page.goto: Target page, context or browser has been closed
+  148 |       await lamMaker.loginLamMaker('lam.id.mkr@fintuple.com', 'Icici@124');
+  149 |     });
+  150 |   
+  151 |     test('TC_05_02: Update the details to click Resubmit the task for Maker ', async ({}) => {
+  152 |       page2 = await Promise.all([
+  153 |         page.waitForEvent("popup"), 
+  154 |         page.locator('//a[text()="View Task"]').click(), 
+  155 |         ]).then(([newPage]) => newPage);
+  156 |         await page2.waitForLoadState();
+  157 |         await new Promise(resolve => setTimeout(resolve, 3000));
+  158 |   
+  159 |         await page2.locator('//input[@id="search"]').fill(generatedEmail);
+  160 |         await page2.locator('//i[@id="dropdown"]').click();
+  161 |         await page2.locator('//button[@id="Re-submit Task"]').click();
+  162 |         await page2.locator('//textarea[@id="internal_user_comment"]').fill("Details to  the User");
+  163 |         await page2.locator('//button[@id="internal_user_submit"]').click();
+  164 |         await new Promise(resolve => setTimeout(resolve, 2000));
+  165 |   
+  166 |     });
+  167 |   
+  168 |   });
+  169 |   });
+  170 |
+  171 | //Scenario 2
+  172 |
+  173 | // test.describe('Maker Flow',()=>{
+  174 | //   test.beforeEach(async ({ page }) => {
+  175 | //     const lamMaker = new LAM_LoginPage(page);
+  176 | //     await page.goto('https://cdi-r5.finwyze.com');
+  177 | //     await lamMaker.loginLamMaker('lam.id.mkr@fintuple.com', 'Icici@124');
+  178 | //   });
+  179 |
+  180 | //   test('TC_02_01: Edit user as Maker ', async ({ page }) => {
+  181 | //     page2 = await Promise.all([
+  182 | //             page.waitForEvent("popup"), 
+  183 | //             page.locator('//a[text()="View Task"]').click(), 
+  184 | //             ]).then(([newPage]) => newPage);
+  185 | //             await page2.waitForLoadState()
+  186 |   
+  187 | //     const lamPopup = new LAM_LoginPage(page2);
+  188 | //     await lamPopup.clickUser();
+  189 | //     await new Promise(resolve => setTimeout(resolve, 2000));
+  190 | //     await page2.locator('//input[@id="search"]').fill(generatedEmail);
+  191 | //     await new Promise(resolve => setTimeout(resolve, 2000));
+  192 | //     await page2.locator('//i[@id="dropdown"]').click();
+  193 | //     await page2.locator('//button[@id="Edit"]').click();
+  194 | //     const phoneNumber = page2.locator('//input[@id="internal_user_mobileNumber"]');
+  195 | //     phoneNumber.click();
+  196 | //     await new Promise(resolve => setTimeout(resolve, 1000));
+  197 | //     await phoneNumber.press('Control+A');
+  198 | //     await phoneNumber.press('Backspace'); 
+  199 | //     await phoneNumber.fill('9080378965');
+  200 | //     await new Promise(resolve => setTimeout(resolve, 2000));
+  201 | //     await page2.locator('//button[@id="internal_user_submit"]').click();
+  202 | //     await new Promise(resolve => setTimeout(resolve, 2000));
+  203 | //   });
+  204 |   
+  205 | // });
+  206 |
+  207 | // test.describe('Checker Flow', () => {
+  208 | //   test.beforeEach(async ({ page }) => {
+  209 | //     const lamChecker = new LAM_LoginPage(page);
+  210 | //     await page.goto('https://cdi-r5.finwyze.com');
+  211 | //     await lamChecker.loginLamMaker('lam.id.ckr@fintuple.com', 'Icici@124');
+  212 | //   });
+  213 |
+  214 | //   test('TC_02_02:Approve Edit user as Checker', async ({ page }) => {
+  215 | //     await new Promise(resolve => setTimeout(resolve, 3000));
+  216 | //         page2 = await Promise.all([
+  217 | //           page.waitForEvent("popup"), 
+  218 | //           page.locator('//a[text()="View Task"]').click(), 
+  219 | //           ]).then(([newPage]) => newPage);
+  220 | //           await page2.waitForLoadState();
+  221 | //           await new Promise(resolve => setTimeout(resolve, 3000));
+  222 |
+  223 | //     await page2.locator('(//i[@id="dropdown"])[1]').click();
+  224 | //     await page2.getByRole('button', { name: ' Approve/Reject' }).click();
+  225 | //     await new Promise(resolve => setTimeout(resolve, 1000));
+  226 | //     await page2.locator('#task_internal_user_comments').click();
+  227 | //     await new Promise(resolve => setTimeout(resolve, 2000));
+  228 | //     await page2.locator('#task_internal_user_comments').fill('APPROVE');
+  229 | //     await new Promise(resolve => setTimeout(resolve, 1000));
+  230 | //     await page2.getByRole('button', { name: 'Approve' }).click();
+  231 | //     await new Promise(resolve => setTimeout(resolve, 2000));
+  232 | //   });
+  233 |
+  234 | // });
+  235 |
+  236 |
+  237 | // //Scenario 3 : Activate User
+  238 | // test.describe('Maker Flow',()=>{
+  239 | //   test.beforeEach(async ({ page }) => {
+  240 | //     const lamMaker = new LAM_LoginPage(page);
+  241 | //     await page.goto('https://cdi-r5.finwyze.com');
+  242 | //     await lamMaker.loginLamMaker('lam.id.mkr@fintuple.com', 'Icici@124');
+  243 | //   });
+  244 |
+  245 | //   test('TC_03_01: Active user as Maker ', async ({ page }) => {
+  246 | //     page2 = await Promise.all([
+  247 | //             page.waitForEvent("popup"), 
+```

@@ -1,0 +1,115 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: TC_01: Login to iCACE Application with valid credentials. @sanity
+- Location: C:\Naveenraj_Files\PlayWright_Automation\SampleTest\PlaywrightAutomation\tests\03-investorProfile_i360.spec.js:21:1
+
+# Error details
+
+```
+TimeoutError: page.goto: Timeout 45000ms exceeded.
+Call log:
+  - navigating to "https://cd-r5.finwyze.com/", waiting until "load"
+
+    at C:\Naveenraj_Files\PlayWright_Automation\SampleTest\PlaywrightAutomation\tests\03-investorProfile_i360.spec.js:15:16
+```
+
+# Test source
+
+```ts
+   1 | import { test, expect } from "@playwright/test";
+   2 | import LoginPage from "../pages/loginPage.js";
+   3 | import InvestorProfile from "../pages/addInvestorBasicDetails.js";
+   4 | import OccupationPage from "../pages/occupation.js";
+   5 | import NomineeDetails from "../pages/nominee.js";
+   6 | import BankAccountDetails from "../pages/bankAccount.js";
+   7 | import DocumentUpload from "../pages/document.js";
+   8 |
+   9 |
+  10 | let page, page2;
+  11 |
+  12 | test.beforeAll(async ({ browser }) => {
+  13 |     const context = await browser.newContext();
+  14 |     page = await context.newPage();
+> 15 |     await page.goto("https://cd-r5.finwyze.com");
+     |                ^ TimeoutError: page.goto: Timeout 45000ms exceeded.
+  16 |     const loginPage = new LoginPage(page);
+  17 |     await loginPage.login("Domestic Custody","FT.IPRU.AMCRM01@FINTUPLE.COM", "Fintuple@1", "a2C4dE");
+  18 |     await loginPage.enterOTP("857362");
+  19 |     await new Promise(resolve => setTimeout(resolve, 3000));
+  20 |     });
+  21 | test("TC_01: Login to iCACE Application with valid credentials. @sanity", async () => {
+  22 |     console.log("Login as successfully Completed");
+  23 |     });
+  24 | test("TC_02: Navigate to the Investor Profile Dashboard Page.@sanity", async () => {
+  25 |     page2 = await Promise.all([
+  26 |     page.waitForEvent("popup"), 
+  27 |     page.getByText('View Investors').click(), 
+  28 |     ]).then(([newPage]) => newPage);
+  29 |     await page2.waitForLoadState();
+  30 |     console.log("Investor Profile navigated successfully");
+  31 |     });
+  32 | test("TC_03: Add Investor Basic Details (Name, DOB, Email,Mobile Number). @sanity", async () => {
+  33 |     await new Promise(resolve => setTimeout(resolve, 2000));
+  34 |     await page2.locator('button:has-text("Add Investor")').waitFor();
+  35 |     const addInvestorButton = page2.getByRole('button', { name: 'Add Investor' });
+  36 |     await expect(addInvestorButton).toBeVisible();
+  37 |     await addInvestorButton.click();
+  38 |     await expect(page2.locator("//div[contains(@class, 'modal-content')]")).toBeVisible()
+  39 |     await new Promise(resolve => setTimeout(resolve, 1000));
+  40 |     await page2.locator("//div[contains(@class, 'modal-content')]").waitFor();
+  41 |     await page2.getByRole('textbox', { name: 'PAN' }).click();
+  42 |     const basicDetails = new InvestorProfile(page2);
+  43 |     await basicDetails.investorBasicDetails("DVIPZ1596X", "21-05-2002", "Testing", "Name", "9233458798", "Manan@gmail.com");
+  44 |     await new Promise(resolve => setTimeout(resolve, 2000));
+  45 |     console.log("Investor Details Saved Successfully")
+  46 |     });
+  47 | test("TC_04: Complete KYC Details @sanity", async() =>{
+  48 |     await new Promise(resolve => setTimeout(resolve, 2000));
+  49 |     await page2.getByRole('button', { name: 'Next' }).click();
+  50 |     console.log("KYC Details complete Sucessfully");
+  51 |     await new Promise(resolve => setTimeout(resolve, 2000))
+  52 |     });
+  53 | test("TC_05: Add Occupation, Education & Income Details. @sanity", async() =>{
+  54 |     await new Promise(resolve => setTimeout(resolve, 1000));
+  55 |     const occupation = new OccupationPage(page2);
+  56 |     await occupation.occupationDetails("21-04-2024","50000000","05-03-2025", "MUTUAL INVESTMENT PLATFORM", "NOTHING","3");
+  57 |     await new Promise(resolve => setTimeout(resolve, 2000));
+  58 |     console.log("Occupation Details saved successfully")
+  59 |
+  60 |     });
+  61 | test("TC_06: Add Nominee Details (Nominee name, relationship, percentage share).@sanity", async() => {
+  62 |     await new Promise(resolve => setTimeout(resolve, 1000));
+  63 |     const nominee = new NomineeDetails(page2);
+  64 |     await nominee.addNominee("Pathiban","Srinivasan","05-04-1999","Srinagar Colony","Balaji Apartment","600012","9080237654","parthisri0504@gmail.com","4342");
+  65 |     await new Promise(resolve => setTimeout(resolve, 2000));
+  66 |     console.log("Nominee Details saved Successfully")
+  67 |     });
+  68 | test("TC_07: Add Bank Account Details (Account number, IFSC, Bank name).@sanity", async()=>{
+  69 |     await new Promise(resolve => setTimeout(resolve, 1000));
+  70 |     const addAccount = new BankAccountDetails(page2);
+  71 |     await addAccount.addBankDetails("39088765476","SBIN0007494","635002020","STATE BANK OF INDIA","Rmy Pochampalli");
+  72 |     await new Promise(resolve => setTimeout(resolve, 2000));
+  73 |     console.log("Bank Account Details saved Successfully")
+  74 |
+  75 |     });
+  76 | test("TC_08: Upload Required Documents (PAN, Aadhaar, etc.).@sanity", async() =>{
+  77 |     await new Promise(resolve => setTimeout(resolve, 1000));
+  78 |     
+  79 |     const docUpload = new DocumentUpload(page2);
+  80 |     await docUpload.uploadDocument("doc21041");
+  81 |     await new Promise(resolve => setTimeout(resolve, 2000));
+  82 |     console.log("Document saved Successfully")
+  83 |
+  84 |     });
+  85 |
+  86 |
+  87 |
+  88 |
+  89 |
+```

@@ -1,0 +1,3 @@
+Status is correctly set to 'Active'.
+Toast Message: User deactivated Successfully
+Status is correctly set to 'InActive'.

@@ -1,0 +1,75 @@
+# Test info
+
+- Name: TC_03: Upload Stamp Paper using Offline Document Flow
+- Location: C:\Testing Details\Naveenraj\SampleTest\PlaywrightAutomation\tests\04-amcManager.spec.js:37:1
+
+# Error details
+
+```
+Error: page.goto: Target page, context or browser has been closed
+Call log:
+  - navigating to "https://custodydigitizationuat.icicibank.com/", waiting until "load"
+
+    at C:\Testing Details\Naveenraj\SampleTest\PlaywrightAutomation\tests\04-amcManager.spec.js:10:16
+```
+
+# Test source
+
+```ts
+   1 | import { test, expect } from "@playwright/test";
+   2 | import LoginPage from "../pages/loginPage.js";
+   3 | import OfflineDocumentSection from"../pages/OfflineDocument.js";
+   4 | let browser;
+   5 | let page, page2;
+   6 |
+   7 | test.beforeAll(async ({ browser }) => {
+   8 |     const context = await browser.newContext();
+   9 |     page = await context.newPage();
+> 10 |     await page.goto("https://custodydigitizationuat.icicibank.com/");
+     |                ^ Error: page.goto: Target page, context or browser has been closed
+  11 |     const loginPage = new LoginPage(page);
+  12 |     await loginPage.login("Domestic Custody","FTIPRU@FINTUPLE.COM", "Fintuple@1", "a2C4dE");
+  13 |     const otpEntered = await loginPage.enterOTP("857362");
+  14 |     if (otpEntered) {
+  15 |     console.log("OTP entered successfully.");
+  16 |     } else {
+  17 |     console.log("Failed to enter OTP.");
+  18 |     }
+  19 |     await new Promise(resolve => setTimeout(resolve, 3000));
+  20 |     });
+  21 |
+  22 | test("TC_01: Navigate to External Admin Dashboard", async () => {
+  23 |         page2 = await Promise.all([
+  24 |         page.waitForEvent("popup"), 
+  25 |         page.getByText('View Task').first().click(), 
+  26 |         ]).then(([newPage]) => newPage);
+  27 |         await page2.waitForLoadState();
+  28 |         console.log("Click External Admin Dashboard Page");
+  29 |     });
+  30 | test("TC_02: User can add the user of Single Record", async()=>{
+  31 |     const addStamp = new OfflineDocumentSection(page2);
+  32 |     await new Promise(resolve => setTimeout(resolve, 2000));
+  33 |     await addStamp.addSingleUser("Kuamr","0987","212000","Kumar@fintuple.com","9344872104");s
+  34 |
+  35 | })
+  36 |
+  37 | test("TC_03: Upload Stamp Paper using Offline Document Flow", async({}) =>{
+  38 |     await new Promise(resolve => setTimeout(resolve, 5000));
+  39 |     await page2.locator('//button[text()="Offline Documents"]').click();
+  40 |     
+  41 |
+  42 |    });
+  43 |
+  44 | test("TC_04: Validate Stamp Paper Upload in Offline Document ", async () => {
+  45 |     const addStamp = new OfflineDocumentSection(page2);
+  46 |     await addStamp.stampPaperAddition("2","21-10-2025","MAHARASHTRA","PMS AGREEMENT","700");
+  47 |     await addStamp.stampPaperAddition("2","21-11-2025","MAHARASHTRA","POA","500");
+  48 |
+  49 |
+  50 | });
+  51 |
+  52 |
+  53 |
+  54 |    
+  55 |  
+```

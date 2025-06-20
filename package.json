@@ -1,32 +1,25 @@
 {
-  "devDependencies": {
-    "@playwright/test": "^1.52.0"
-  },
-  "name": "finwyze-test",
+  "name": "pwlearning",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
-  "dependencies": {
-    "exceljs": "^4.4.0",
-    "playwright": "^1.52.0",
-    "playwright-core": "^1.52.0"
-  },
+  "main": "learing.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/FT-NAVEENRAJ/finwyze-test.git"
+    "test:smoke": "npx playwright test --grep '@smoke'",
+    "test:sanity": "npx playwright test --grep '@sanity'",
+    "test:priority": "npm run test:smoke && npm run test:sanity"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/FT-NAVEENRAJ/finwyze-test/issues"
+  "type": "module",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.13.10",
+    "allure-playwright": "^3.2.1"
   },
-  "homepage": "https://github.com/FT-NAVEENRAJ/finwyze-test#readme"
+  "dependencies": {
+    "dayjs": "^1.11.13",
+    "playwright-m365-helpers": "^0.0.5",
+    "xlsx": "^0.18.5"
+  }
 }

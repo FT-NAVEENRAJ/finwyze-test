@@ -1,0 +1,235 @@
+# Test info
+
+- Name: LAM ID Module Tests >> Maker Flow >> TC_01_02: Create a Duplicate User for Maker
+- Location: C:\Testing Details\Naveenraj\SampleTest\PlaywrightAutomation\tests\01-lam.spec.js:78:5
+
+# Error details
+
+```
+Error: locator.textContent: Test timeout of 100000ms exceeded.
+Call log:
+  - waiting for locator('div.toast-title').filter({ hasText: 'Task is already exist in checker queue' })
+
+    at C:\Testing Details\Naveenraj\SampleTest\PlaywrightAutomation\tests\01-lam.spec.js:93:58
+```
+
+# Page snapshot
+
+```yaml
+- text: 
+- heading "Internal User Management" [level=5]
+- heading "49" [level=5]
+- text: View Task
+- img "loading..."
+- img
+- list:
+  - listitem: Home
+- text: Copyright © 2023 . All rights Reserved.
+- link "Disclaimer":
+  - /url: https://www.icicibank.com/disclaimer
+- text: "|"
+- link "Privacy Policy":
+  - /url: https://www.icicibank.com/privacy
+- text: "|"
+- link "Terms of Use":
+  - /url: https://www.icicibank.com/disclaimer
+```
+
+# Test source
+
+```ts
+   1 | import { test, expect } from '@playwright/test';
+   2 | import LAM_LoginPage from "../pages/lamlogin.js";
+   3 |
+   4 | // Test data
+   5 | const TEST_DATA = {
+   6 |   employeeId: "KishoreeKumar0111",
+   7 |   get generatedEmail() {
+   8 |     return `${this.employeeId}@ICICIBANK.com`;
+   9 |   },
+   10 |   users: {
+   11 |     maker: { email: 'lam.id.mkr@fintuple.com', password: 'Icici@124' },
+   12 |     checker: { email: 'lam.id.ckr@fintuple.com', password: 'Icici@124' }
+   13 |   },
+   14 |   urls: {
+   15 |     base: 'https://cdi-r3.finwyze.com'
+   16 |   }
+   17 | };
+   18 |
+   19 | test.describe('LAM ID Module Tests', () => {
+   20 |   let page;
+   21 |   
+   22 |   // Common functions
+   23 |   const openTaskView = async (page) => {
+   24 |     const newPage = await Promise.all([
+   25 |       page.waitForEvent("popup"),
+   26 |       page.locator('//a[text()="View Task"]').click(),
+   27 |     ]).then(([newPage]) => newPage);
+   28 |     
+   29 |     await newPage.waitForLoadState();
+   30 |     return newPage;
+   31 |   };
+   32 |
+   33 |   const approveRejectTask = async (page, action, comment) => {
+   34 |     await page.locator('(//i[@id="dropdown"])[1]').click();
+   35 |     await page.getByRole('button', { name: ' Approve/Reject' }).click();
+   36 |     await page.locator('#task_internal_user_comments').click();
+   37 |     await page.locator('#task_internal_user_comments').fill(comment);
+   38 |     await page.getByRole('button', { name: action }).click();
+   39 |     await page.waitForTimeout(2000);
+   40 |   };
+   41 |
+   42 |   // Maker Flow Tests
+   43 |   test.describe('Maker Flow', () => {
+   44 |     test.beforeEach(async ({ page }) => {
+   45 |       const lamMaker = new LAM_LoginPage(page);
+   46 |       await page.goto(TEST_DATA.urls.base);
+   47 |       await lamMaker.loginLamMaker(TEST_DATA.users.maker.email, TEST_DATA.users.maker.password);
+   48 |     });
+   49 |
+   50 |     test('TC_01_01: Create user as Maker', async ({ page }) => {
+   51 |       const taskPage = await openTaskView(page);
+   52 |       const lamPopup = new LAM_LoginPage(taskPage);
+   53 |       
+   54 |       await lamPopup.AddUser("Arunachalam", "9080365952");
+   55 |       await taskPage.locator('//input[@id="internal_user_employeeId"]').fill(TEST_DATA.employeeId);
+   56 |       await taskPage.locator('//input[@id="internal_user_emailAddress"]').fill(TEST_DATA.generatedEmail);
+   57 |       
+   58 |       // Fill form fields
+   59 |       await taskPage.locator('.ng-input > input').first().click();
+   60 |       await taskPage.locator('ng-select').filter({ hasText: 'No items found' }).getByRole('textbox').fill('chennai');
+   61 |       await taskPage.getByText('Chennai Main Branch').click();
+   62 |       
+   63 |       await taskPage.locator('#internal_user_applications').getByRole('textbox').click();
+   64 |       await taskPage.getByText('USER MANAGEMENT').click();
+   65 |       
+   66 |       await taskPage.locator('#internal_user_roles').getByRole('textbox').click();
+   67 |       await taskPage.getByText('LAM ID Maker', { exact: true }).click();
+   68 |       
+   69 |       await taskPage.locator('//button[@id="internal_user_submit"]').click();
+   70 |       
+   71 |       const successToast = taskPage.getByRole('alert', { name: 'Task Created Successfully' });
+   72 |       await page.waitForTimeout(500);
+   73 |       const toastText = await successToast.textContent();
+   74 |       console.log("Success Toast Message:", toastText?.trim());
+   75 |       await expect(successToast).toHaveText("Task Created Successfully");
+   76 |     });
+   77 |
+   78 |     test('TC_01_02: Create a Duplicate User for Maker', async ({ page }) => {
+   79 |       const taskPage = await openTaskView(page);
+   80 |       const lamPopup = new LAM_LoginPage(taskPage);
+   81 |       
+   82 |       await lamPopup.AddUser("Arunachalam", "9080365952");
+   83 |       await taskPage.locator('//input[@id="internal_user_employeeId"]').fill(TEST_DATA.employeeId);
+   84 |       await taskPage.locator('//input[@id="internal_user_emailAddress"]').fill(TEST_DATA.generatedEmail);
+   85 |       
+   86 |       // Fill form fields (same as TC_01_01)
+   87 |       // ...
+   88 |       
+   89 |       await taskPage.locator('//button[@id="internal_user_submit"]').click();
+   90 |       
+   91 |       const duplicateUserPopup = taskPage.locator('div.toast-title').filter({ hasText: 'Task is already exist in checker queue' });
+   92 |       await page.waitForTimeout(500);
+>  93 |       const toastTextDuplcate = await duplicateUserPopup.textContent();
+      |                                                          ^ Error: locator.textContent: Test timeout of 100000ms exceeded.
+   94 |       console.log("Success Toast Message:", toastTextDuplcate?.trim());
+   95 |       await expect(duplicateUserPopup).toHaveText("Task is already exist in checker queue");
+   96 |     });
+   97 |
+   98 |     test('TC_02_01: Edit user as Maker', async ({ page }) => {
+   99 |       const taskPage = await openTaskView(page);
+  100 |       const lamPopup = new LAM_LoginPage(taskPage);
+  101 |       
+  102 |       await lamPopup.clickUser();
+  103 |       await taskPage.locator('//input[@id="search"]').fill(TEST_DATA.generatedEmail);
+  104 |       await taskPage.locator('//i[@id="dropdown"]').click();
+  105 |       await taskPage.locator('//button[@id="Edit"]').click();
+  106 |       
+  107 |       const phoneNumber = taskPage.locator('//input[@id="internal_user_mobileNumber"]');
+  108 |       await phoneNumber.click();
+  109 |       await phoneNumber.press('Control+A');
+  110 |       await phoneNumber.press('Backspace');
+  111 |       await phoneNumber.fill('9080378965');
+  112 |       
+  113 |       await taskPage.locator('//button[@id="internal_user_submit"]').click();
+  114 |     });
+  115 |
+  116 |     test('TC_03_01: Activate user as Maker', async ({ page }) => {
+  117 |       const taskPage = await openTaskView(page);
+  118 |       const lamPopup = new LAM_LoginPage(taskPage);
+  119 |       
+  120 |       await lamPopup.clickUser();
+  121 |       await taskPage.locator('//input[@id="search"]').fill(TEST_DATA.generatedEmail);
+  122 |       await taskPage.locator('//i[@id="dropdown"]').click();
+  123 |       await taskPage.locator('//button[@id="Activate/Deactivate"]').click();
+  124 |       await taskPage.locator('//textarea[@id="internal_user_comment"]').fill("Activate the User");
+  125 |       await taskPage.locator('//button[@id="internal_user_submit"]').click();
+  126 |     });
+  127 |
+  128 |     test('TC_04_01: Deactivate user as Maker', async ({ page }) => {
+  129 |       const taskPage = await openTaskView(page);
+  130 |       const lamPopup = new LAM_LoginPage(taskPage);
+  131 |       
+  132 |       await lamPopup.clickUser();
+  133 |       await taskPage.locator('//input[@id="search"]').fill(TEST_DATA.generatedEmail);
+  134 |       await taskPage.locator('//i[@id="dropdown"]').click();
+  135 |       await taskPage.locator('//button[@id="Activate/Deactivate"]').click();
+  136 |       await taskPage.locator('//textarea[@id="internal_user_comment"]').fill("Deactivate the User");
+  137 |       await taskPage.locator('//button[@id="internal_user_submit"]').click();
+  138 |     });
+  139 |
+  140 |     test('TC_05_02: Resubmit Task for Maker', async ({ page }) => {
+  141 |       const taskPage = await openTaskView(page);
+  142 |       
+  143 |       await taskPage.locator('//input[@id="search"]').fill(TEST_DATA.generatedEmail);
+  144 |       await taskPage.locator('//i[@id="dropdown"]').click();
+  145 |       await taskPage.locator('//button[@id="Re-submit Task"]').click();
+  146 |       await taskPage.locator('//textarea[@id="internal_user_comment"]').fill("Details to the User");
+  147 |       await taskPage.locator('//button[@id="internal_user_submit"]').click();
+  148 |     });
+  149 |   });
+  150 |
+  151 |   // Checker Flow Tests
+  152 |   test.describe('Checker Flow', () => {
+  153 |     test.beforeEach(async ({ page }) => {
+  154 |       const lamChecker = new LAM_LoginPage(page);
+  155 |       await page.goto(TEST_DATA.urls.base);
+  156 |       await lamChecker.loginLamMaker(TEST_DATA.users.checker.email, TEST_DATA.users.checker.password);
+  157 |     });
+  158 |
+  159 |     test('TC_01_02: Reject user as Checker', async ({ page }) => {
+  160 |       const taskPage = await openTaskView(page);
+  161 |       await approveRejectTask(taskPage, 'Reject', 'Reject');
+  162 |     });
+  163 |
+  164 |     test('TC_02_02: Approve Edit user as Checker', async ({ page }) => {
+  165 |       const taskPage = await openTaskView(page);
+  166 |       await approveRejectTask(taskPage, 'Approve', 'APPROVE');
+  167 |     });
+  168 |
+  169 |     test('TC_03_02: Approve Activate user as Checker', async ({ page }) => {
+  170 |       const taskPage = await openTaskView(page);
+  171 |       await taskPage.locator('//input[@id="search"]').fill(TEST_DATA.generatedEmail);
+  172 |       await approveRejectTask(taskPage, 'Approve', 'APPROVE');
+  173 |     });
+  174 |
+  175 |     test('TC_04_02: Approve Deactivate user as Checker', async ({ page }) => {
+  176 |       const taskPage = await openTaskView(page);
+  177 |       await approveRejectTask(taskPage, 'Approve', 'APPROVE');
+  178 |     });
+  179 |
+  180 |     test('TC_05_01: Reject Task for Checker', async ({ page }) => {
+  181 |       const taskPage = await openTaskView(page);
+  182 |       
+  183 |       await taskPage.locator('//input[@id="search"]').fill(TEST_DATA.generatedEmail);
+  184 |       await taskPage.locator('//i[@id="dropdown"]').click();
+  185 |       await taskPage.locator('//button[@id="Activate/Deactivate"]').click();
+  186 |       await taskPage.locator('//textarea[@id="internal_user_comment"]').fill("Deactivate the User");
+  187 |       await taskPage.locator('//button[@id="task_activate_Reject"]').click();
+  188 |     });
+  189 |   });
+  190 | });
+  191 |
+  192 |
+  193 |
+```

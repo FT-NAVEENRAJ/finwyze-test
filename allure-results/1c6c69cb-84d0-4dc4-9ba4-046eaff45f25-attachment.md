@@ -1,0 +1,90 @@
+# Test info
+
+- Name: TC_07: To Verify Confirmation of Additional Details
+- Location: C:\Testing Details\Naveenraj\SampleTest\PlaywrightAutomation\tests\investorModule.spec.js:60:1
+
+# Error details
+
+```
+Error: page.goto: Target page, context or browser has been closed
+Call log:
+  - navigating to "https://cd-r3.finwyze.com/holder/", waiting until "load"
+
+    at C:\Testing Details\Naveenraj\SampleTest\PlaywrightAutomation\tests\investorModule.spec.js:22:14
+```
+
+# Test source
+
+```ts
+   1 | import { test, expect, chromium } from '@playwright/test'
+   2 | import InvstorModule from '../pages/investorModule';
+   3 | import { globalData } from '../pages/global-data.js';
+   4 |
+   5 |
+   6 | let page;
+   7 |
+   8 | test.beforeAll(async ({browser}) => {
+   9 |     const context = await browser.newContext('',{
+  10 |     headless: false,
+  11 |     permissions: ['geolocation', 'microphone', 'camera'],
+  12 |     geolocation: { latitude: 12.9716, longitude: 77.5946 },
+  13 |     locale: 'en-US',
+  14 |   });
+  15 |
+  16 |   await context.grantPermissions(
+  17 |     ['geolocation', 'microphone', 'camera'],
+  18 |     { origin: 'https://cd-r3.finwyze.com' }
+  19 |   );
+  20 |
+  21 |   page = await context.newPage();
+> 22 |   await page.goto('https://cd-r3.finwyze.com/holder/');
+     |              ^ Error: page.goto: Target page, context or browser has been closed
+  23 | });
+  24 |
+  25 | test('TC_01: Verify user is navigated to Holder page', async () => {
+  26 |   await expect(page).toHaveURL(/holder/); 
+  27 | });
+  28 | test('TC_02: User logs in with valid credentials', async () => {
+  29 |     const im = new InvstorModule(page);
+  30 |     await im.investoroduleLogin("curpa1355D","21-08-1995");
+  31 |   });
+  32 | test('TC_03: User enters valid 6-digit OTP and submits', async () => {
+  33 |     const investor = new InvstorModule(page);
+  34 |     await investor.sendOTPInvestorModule();
+  35 |   });
+  36 |
+  37 | test("TC_04: To Search the application ID for Investor Module page", async()=>{
+  38 |
+  39 |       await new Promise(resolve => setTimeout(resolve, 3000));
+  40 |       // if (!globalData.applicationId) {
+  41 |       //   throw new Error("applicationId is not set in globalData");
+  42 |       // }
+  43 |       //await page.locator('//input[@id="search"]').fill(globalData.applicationId);
+  44 |       await page.locator('//input[@id="search"]').fill("DINPMS250425001");
+  45 |
+  46 | });
+  47 |
+  48 | test("TC_05: To Click the Application to complete the Investor Module section", async()=>{
+  49 |  
+  50 |     await page.locator('//a[@id="applicationId"]').click();
+  51 |     await new Promise(resolve => setTimeout(resolve, 10000));
+  52 |
+  53 | });
+  54 |
+  55 | test('TC_06: To Validate Investment Selection on Confirmation of Scheme', async ({ page }) => {
+  56 |   const investor = new InvstorModule(page);
+  57 |   await investor.investmentSelection();
+  58 |   
+  59 | });
+  60 | test('TC_07: To Verify Confirmation of Additional Details', async ({ page }) => {
+  61 |   const investor = new InvstorModule(page);
+  62 |   await investor.proceedAdditionalDetails.click();
+  63 |   
+  64 | });
+  65 |
+  66 |
+  67 |
+  68 |   
+  69 |  
+  70 |
+```

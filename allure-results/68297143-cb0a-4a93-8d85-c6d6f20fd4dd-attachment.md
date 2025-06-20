@@ -1,0 +1,457 @@
+# Test info
+
+- Name: LAM ID Module Tests >> Maker Flow >> TC_01_02: Create a Duplicate User for Maker
+- Location: C:\Testing Details\Naveenraj\SampleTest\PlaywrightAutomation\tests\01-lam.spec.js:58:3
+
+# Error details
+
+```
+Error: Timed out 5000ms waiting for expect(locator).toHaveText(expected)
+
+Locator: getByRole('alert', { name: 'Task is already exist in checker queue' })
+Expected string: "Task is already exist in checker queue"
+Received: <element(s) not found>
+Call log:
+  - expect.toHaveText with timeout 5000ms
+  - waiting for getByRole('alert', { name: 'Task is already exist in checker queue' })
+
+    at C:\Testing Details\Naveenraj\SampleTest\PlaywrightAutomation\tests\01-lam.spec.js:87:40
+```
+
+# Page snapshot
+
+```yaml
+- dialog:
+  - document:
+    - heading "Add/Edit User" [level=5]
+    - button "Close"
+    - text: Full Name *
+    - textbox: ARUNACHALAM
+    - text: Employee ID/User ID *
+    - textbox: KISHOREEKUMAR001
+    - text: E-mail Address *
+    - textbox: KISHOREEKUMAR001@ICICIBANK.COM
+    - text: Mobile Number *
+    - combobox:
+      - option "Select" [disabled]
+      - option "(+91) INDIA" [selected]
+      - option "(+1) USA"
+      - option "(+44) UK"
+      - option "(+213) ALGERIA"
+      - option "(+376) ANDORRA"
+      - option "(+244) ANGOLA"
+      - option "(+1264) ANGUILLA"
+      - option "(+1268) ANTIGUA & BARBUDA"
+      - option "(+54) ARGENTINA"
+      - option "(+374) ARMENIA"
+      - option "(+297) ARUBA"
+      - option "(+61) AUSTRALIA"
+      - option "(+43) AUSTRIA"
+      - option "(+994) AZERBAIJAN"
+      - option "(+1242) BAHAMAS"
+      - option "(+973) BAHRAIN"
+      - option "(+880) BANGLADESH"
+      - option "(+1246) BARBADOS"
+      - option "(+375) BELARUS"
+      - option "(+32) BELGIUM"
+      - option "(+501) BELIZE"
+      - option "(+229) BENIN"
+      - option "(+1441) BERMUDA"
+      - option "(+975) BHUTAN"
+      - option "(+591) BOLIVIA"
+      - option "(+387) BOSNIA HERZEGOVINA"
+      - option "(+267) BOTSWANA"
+      - option "(+55) BRAZIL"
+      - option "(+673) BRUNEI"
+      - option "(+359) BULGARIA"
+      - option "(+226) BURKINA FASO"
+      - option "(+257) BURUNDI"
+      - option "(+855) CAMBODIA"
+      - option "(+237) CAMEROON"
+      - option "(+1) CANADA"
+      - option "(+238) CAPE VERDE ISLANDS"
+      - option "(+1345) CAYMAN ISLANDS"
+      - option "(+236) CENTRAL AFRICAN REPUBLIC"
+      - option "(+56) CHILE"
+      - option "(+86) CHINA"
+      - option "(+57) COLOMBIA"
+      - option "(+269) COMOROS"
+      - option "(+242) CONGO"
+      - option "(+682) COOK ISLANDS"
+      - option "(+506) COSTA RICA"
+      - option "(+385) CROATIA"
+      - option "(+53) CUBA"
+      - option "(+599) CURACAO"
+      - option "(+90392) CYPRUS NORTH"
+      - option "(+357) CYPRUS SOUTH"
+      - option "(+420) CZECH REPUBLIC"
+      - option "(+45) DENMARK"
+      - option "(+253) DJIBOUTI"
+      - option "(+1809) DOMINICA"
+      - option "(+1809) DOMINICAN REPUBLIC"
+      - option "(+593) ECUADOR"
+      - option "(+20) EGYPT"
+      - option "(+503) EL SALVADOR"
+      - option "(+240) EQUATORIAL GUINEA"
+      - option "(+291) ERITREA"
+      - option "(+372) ESTONIA"
+      - option "(+251) ETHIOPIA"
+      - option "(+500) FALKLAND ISLANDS"
+      - option "(+298) FAROE ISLANDS"
+      - option "(+679) FIJI"
+      - option "(+358) FINLAND"
+      - option "(+33) FRANCE"
+      - option "(+594) FRENCH GUIANA"
+      - option "(+689) FRENCH POLYNESIA"
+      - option "(+241) GABON"
+      - option "(+220) GAMBIA"
+      - option "(+7880) GEORGIA"
+      - option "(+49) GERMANY"
+      - option "(+233) GHANA"
+      - option "(+350) GIBRALTAR"
+      - option "(+30) GREECE"
+      - option "(+299) GREENLAND"
+      - option "(+1473) GRENADA"
+      - option "(+590) GUADELOUPE"
+      - option "(+671) GUAM"
+      - option "(+502) GAUTEMALA"
+      - option "(+224) GUINEA"
+      - option "(+245) GUINEA - BISSAU"
+      - option "(+592) GUYANA"
+      - option "(+509) HAITI"
+      - option "(+504) HONDURAS"
+      - option "(+852) HONG KONG"
+      - option "(+36) HUNGARY"
+      - option "(+354) ICELAND"
+      - option "(+62) INDONESIA"
+      - option "(+98) IRAN"
+      - option "(+964) IRAQ"
+      - option "(+353) IRELAND"
+      - option "(+972) ISREAL"
+      - option "(+39) ITALY"
+      - option "(+1876) JAMAICA"
+      - option "(+81) JAPAN"
+      - option "(+962) JORDAN"
+      - option "(+7) KAZAKHSTAN"
+      - option "(+254) KENYA"
+      - option "(+686) KIRIBATI"
+      - option "(+850) KOREA NORTH"
+      - option "(+82) KOREA SOUTH"
+      - option "(+965) KUWAIT"
+      - option "(+996) KYRGYZSTAN"
+      - option "(+856) LAOZ"
+      - option "(+371) LATVIA"
+      - option "(+961) LEBANON"
+      - option "(+266) LESOTHO"
+      - option "(+231) LIBERIA"
+      - option "(+218) LIBYA"
+      - option "(+417) LIECHTENSTEIN"
+      - option "(+370) LITHUANIA"
+      - option "(+352) LUXEMBOURG"
+      - option "(+853) MACAO"
+      - option "(+389) MACEDONIA"
+      - option "(+261) MADAGASCAR"
+      - option "(+265) MALAWI"
+      - option "(+60) MALAYSIA"
+      - option "(+960) MALDIVES"
+      - option "(+223) MALI"
+      - option "(+356) MALTA"
+      - option "(+692) MARSHALL ISLANDS"
+      - option "(+596) MARTINIQUE"
+      - option "(+222) MAURITANIA"
+      - option "(+269) MAYOTTE"
+      - option "(+52) MEXICO"
+      - option "(+691) MICRONESIA"
+      - option "(+373) MOLDOVA"
+      - option "(+377) MONACO"
+      - option "(+976) MONGOLIA"
+      - option "(+1664) MONTSERRSAT"
+      - option "(+212) MOROCCO"
+      - option "(+258) MOZAMBIQUE"
+      - option "(+95) MYANMAR"
+      - option "(+264) NAMIBIA"
+      - option "(+674) NAURU"
+      - option "(+977) NEPAL"
+      - option "(+31) NETHERLANDS"
+      - option "(+687) NEW CALEDONIA"
+      - option "(+64) NEW ZEALAND"
+      - option "(+505) NICARAGUA"
+      - option "(+227) NIGER"
+      - option "(+234) NIGERIA"
+      - option "(+683) NIUE"
+      - option "(+672) NORFOLK ISLANDS"
+      - option "(+670) NORTHEN MARIANAS"
+      - option "(+47) NORWAY"
+      - option "(+968) OMAN"
+      - option "(+680) PALAU"
+      - option "(+507) PANAMA"
+      - option "(+675) PAPUA NEW GUINEA"
+      - option "(+595) PARAGUAY"
+      - option "(+51) PERU"
+      - option "(+63) PHILIPPINES"
+      - option "(+48) POLAND"
+      - option "(+351) PORTUGAL"
+      - option "(+1787) PUERTO RICO"
+      - option "(+974) QATAR"
+      - option "(+262) REUNION"
+      - option "(+40) ROMANIA"
+      - option "(+7) RUSSIAN"
+      - option "(+250) RWANDA"
+      - option "(+378) SAN MARINO"
+      - option "(+239) SAO TOME & PRINCIPE"
+      - option "(+966) SAUDI ARABIA"
+      - option "(+221) SENEGAL"
+      - option "(+381) SERBIA"
+      - option "(+248) SEYCHELLES"
+      - option "(+232) SIERRA LEONE"
+      - option "(+1) SINT MAARTEN"
+      - option "(+65) SINGAPORE"
+      - option "(+421) SLOVAK REPUBLIC"
+      - option "(+386) SLOVENIA"
+      - option "(+677) SOLOMON ISLANDS"
+      - option "(+252) SOMALIA"
+      - option "(+27) SOUTH AFRICA"
+      - option "(+34) SPAIN"
+      - option "(+94) SRI LANKA"
+      - option "(+290) ST. HELENA"
+      - option "(+1869) ST. KITTS"
+      - option "(+1758) ST. LUCIA"
+      - option "(+249) SUDAN"
+      - option "(+597) SURINAME"
+      - option "(+268) SWAZILAND"
+      - option "(+46) SWEDEN"
+      - option "(+41) SWITZERLAND"
+      - option "(+963) SYRIA"
+      - option "(+886) TAIWAN"
+      - option "(+7) TAJIKSTAN"
+      - option "(+66) THAILAND"
+      - option "(+228) TOGO"
+      - option "(+676) TONGA"
+      - option "(+1868) TRINIDAD & TOBAGO"
+      - option "(+216) TUNISIA"
+      - option "(+90) TURKEY"
+      - option "(+7) TURKMENISTAN"
+      - option "(+993) TURKMENISTAN"
+      - option "(+1649) TURKS & CAICOS ISLANDS"
+      - option "(+688) TUVALU"
+      - option "(+256) UGANDA"
+      - option "(+380) UKRAINE"
+      - option "(+971) UNITED ARAB EMRITES"
+      - option "(+598) URUGUAY"
+      - option "(+7) UZBEKISTAN"
+      - option "(+678) VANUATU"
+      - option "(+379) VATICAN CITY"
+      - option "(+58) VENEZUELA"
+      - option "(+84) VIETNAM"
+      - option "(+1284) VIRGIN ISLANDS - BRITISH"
+      - option "(+1340) VIRGIN ISLANDS - US"
+      - option "(+681) WALLIS AND FUTUNA"
+      - option "(+969) YEMEN (NORTH)"
+      - option "(+967) YEMEN (SOUTH)"
+      - option "(+260) ZAMBIA"
+      - option "(+263) ZIMBABWE"
+    - textbox: "9080365952"
+    - text: User Location Chennai Main Branch
+    - combobox:
+      - textbox
+    - text: Application Access * USER MANAGEMENT
+    - combobox:
+      - textbox
+    - text: User Role(s) * LAM ID Maker
+    - combobox:
+      - textbox
+    - button "Save"
+```
+
+# Test source
+
+```ts
+   1 | import { test, expect } from '@playwright/test';
+   2 | import LAM_LoginPage from "../pages/lamlogin.js";
+   3 | let page;
+   4 | let empId="KishoreeKumar001";
+   5 | let generatedEmail = `${empId}@ICICIBANK.com`;
+   6 |
+   7 |
+   8 |
+   9 |
+   10 | test.describe('LAM ID Module Tests', () => {
+   11 |   
+   12 |   test.describe('Maker Flow', () => {
+   13 |     test.beforeEach(async ({ page }) => {
+   14 |       const lamMaker = new LAM_LoginPage(page);
+   15 |       await page.goto('https://cdi-r5.finwyze.com');
+   16 |       await lamMaker.loginLamMaker('lam.id.mkr@fintuple.com', 'Icici@124');
+   17 |     });
+   18 |
+   19 |     test('TC_01_01: Create user as Maker', async ({ page }) => {
+   20 |       // page = await Promise.all([
+   21 |       //         page.waitForEvent("popup"), 
+   22 |       //         page.locator('//a[text()="View Task"]').click(), 
+   23 |       //         ]).then(([newPage]) => newPage);
+   24 |       //         await page.waitForLoadState()
+   25 |     
+   26 |       const lamPopup = new LAM_LoginPage(page);
+   27 |       await lamPopup.AddUser("Arunachalam", "9080365952");
+   28 |       await page.locator('//input[@id="internal_user_employeeId"]').fill(empId);
+   29 |       await new Promise(resolve => setTimeout(resolve, 1000));
+   30 |       await page.locator('//input[@id="internal_user_emailAddress"]').fill(generatedEmail);
+   31 |       await new Promise(resolve => setTimeout(resolve, 2000));
+   32 |       await page.locator('.ng-input > input').first().click();
+   33 |       await page.locator('ng-select').filter({ hasText: 'No items found' }).getByRole('textbox').fill('chennai');
+   34 |       await page.getByText('Chennai Main Branch').click();
+   35 |       await page.locator('#internal_user_applications').getByRole('textbox').click();
+   36 |       await page.getByText('USER MANAGEMENT').click();
+   37 |       await page.locator('#internal_user_roles').getByRole('textbox').click();
+   38 |       await page.getByText('LAM ID Maker', { exact: true }).click();
+   39 |       await new Promise(resolve => setTimeout(resolve, 2000));
+   40 |       await page.locator('//button[@id="internal_user_submit"]').click();
+   41 |       await new Promise(resolve => setTimeout(resolve, 5000));
+   42 |       const successToast = page.getByRole('alert', { name: 'Task Created Successfully' });
+   43 |       await new Promise(resolve => setTimeout(resolve, 500));
+   44 |       const toastText = await successToast.textContent();
+   45 |       console.log("Success Toast Message:", toastText?.trim());
+   46 |       await expect(successToast).toHaveText("Task Created Successfully");
+   47 |       
+   48 |
+   49 |     });
+   50 |   });
+   51 |   test.describe('Maker Flow', () => {
+   52 |     test.beforeEach(async ({ page }) => {
+   53 |       const lamMaker = new LAM_LoginPage(page);
+   54 |       await page.goto('https://cdi-r5.finwyze.com');
+   55 |       await lamMaker.loginLamMaker('lam.id.mkr@fintuple.com', 'Icici@124');
+   56 |     });
+   57 |
+   58 |   test('TC_01_02: Create a Duplicate User for Maker', async({page})=>{
+   59 |
+   60 |     // page = await Promise.all([
+   61 |     //   page.waitForEvent("popup"), 
+   62 |     //   page.locator('//a[text()="View Task"]').click(), 
+   63 |     //   ]).then(([newPage]) => newPage);
+   64 |     //   await page.waitForLoadState()
+   65 |
+   66 |       const lamPopup = new LAM_LoginPage(page);
+   67 |       await lamPopup.AddUser("Arunachalam", "9080365952");
+   68 |       await page.locator('//input[@id="internal_user_employeeId"]').fill(empId);
+   69 |       await new Promise(resolve => setTimeout(resolve, 1000));
+   70 |       await page.locator('//input[@id="internal_user_emailAddress"]').fill(generatedEmail);
+   71 |       await new Promise(resolve => setTimeout(resolve, 2000));
+   72 |       await page.locator('.ng-input > input').first().click();
+   73 |       await page.locator('ng-select').filter({ hasText: 'No items found' }).getByRole('textbox').fill('chennai');
+   74 |       await page.getByText('Chennai Main Branch').click();
+   75 |       await page.locator('#internal_user_applications').getByRole('textbox').click();
+   76 |       await page.getByText('USER MANAGEMENT').click();
+   77 |       await page.locator('#internal_user_roles').getByRole('textbox').click();
+   78 |       await page.getByText('LAM ID Maker', { exact: true }).click();
+   79 |       await new Promise(resolve => setTimeout(resolve, 2000));
+   80 |       await page.locator('//button[@id="internal_user_submit"]').click();
+   81 |       await new Promise(resolve => setTimeout(resolve, 5000)); 
+   82 |       const duplicateUserPopup = page.getByRole('alert', { name: 'Task is already exist in checker queue' });
+   83 |       await new Promise(resolve => setTimeout(resolve, 500));
+   84 |      // console.log("Email address validation should be displayed in the popup message");
+   85 |       // const toastText = await duplicateUserPopup.textContent();
+   86 |       // console.log("Toast Message:", toastText?.trim());
+>  87 |       await expect(duplicateUserPopup).toHaveText("Task is already exist in checker queue");
+      |                                        ^ Error: Timed out 5000ms waiting for expect(locator).toHaveText(expected)
+   88 |
+   89 |
+   90 |
+   91 |   });
+   92 | });
+   93 |
+   94 |   test.describe('Checker Flow', () => {
+   95 |     test.beforeEach(async ({ page }) => {
+   96 |       const lamChecker = new LAM_LoginPage(page);
+   97 |       await page.goto('https://cdi-r5.finwyze.com');
+   98 |       await lamChecker.loginLamMaker('lam.id.ckr@fintuple.com', 'Icici@124');
+   99 |     });
+  100 |
+  101 |     test('TC_01_02:Approve user as Checker', async ({ page }) => {
+  102 |       await new Promise(resolve => setTimeout(resolve, 3000));
+  103 |           // page = await Promise.all([
+  104 |           //   page.waitForEvent("popup"), 
+  105 |           //   page.locator('//a[text()="View Task"]').click(), 
+  106 |           //   ]).then(([newPage]) => newPage);
+  107 |           //   await page.waitForLoadState();
+  108 |           //   await new Promise(resolve => setTimeout(resolve, 3000));
+  109 |
+  110 |       await page.locator('(//i[@id="dropdown"])[1]').click();
+  111 |       await page.getByRole('button', { name: ' Approve/Reject' }).click();
+  112 |       await new Promise(resolve => setTimeout(resolve, 1000));
+  113 |       await page.locator('#task_internal_user_comments').click();
+  114 |       await new Promise(resolve => setTimeout(resolve, 2000));
+  115 |       await page.locator('#task_internal_user_comments').fill('APPROVE');
+  116 |       await new Promise(resolve => setTimeout(resolve, 1000));
+  117 |       await page.getByRole('button', { name: 'Approve' }).click();
+  118 |       await new Promise(resolve => setTimeout(resolve, 2000));
+  119 |     });
+  120 |   });
+  121 |
+  122 |   test.describe('Checker Flow',()=>{
+  123 |     test.beforeEach(async ({ page }) => {
+  124 |       const lamChecker = new LAM_LoginPage(page);
+  125 |       await page.goto('https://cdi-r5.finwyze.com');
+  126 |       await lamChecker.loginLamMaker('lam.id.ckr@fintuple.com', 'Icici@124');
+  127 |     });
+  128 |     test("TC_05_01: Reject Task for custody Checker",async({})=>{
+  129 |       await new Promise(resolve => setTimeout(resolve, 3000));
+  130 |       page = await Promise.all([
+  131 |         page.waitForEvent("popup"), 
+  132 |         page.locator('//a[text()="View Task"]').click(), 
+  133 |         ]).then(([newPage]) => newPage);
+  134 |         await page.waitForLoadState();
+  135 |         await new Promise(resolve => setTimeout(resolve, 3000));
+  136 |       await page.locator('//input[@id="search"]').fill(generatedEmail);
+  137 |       await page.locator('//i[@id="dropdown"]').click();
+  138 |       await page.locator('//button[@id="Activate/Deactivate"]').click();
+  139 |       await page.locator('//textarea[@id="internal_user_comment"]').fill("Deactivate the User");
+  140 |       await page.locator('//button[@id="task_activate_Reject"]').click();
+  141 |       await new Promise(resolve => setTimeout(resolve, 2000));
+  142 |     });
+  143 |   
+  144 |   test.describe('Maker Flow',()=>{
+  145 |     test.beforeEach(async({page})=>{
+  146 |       const lamMaker = new LAM_LoginPage(page);
+  147 |       await page.goto('https://cdi-r5.finwyze.com');
+  148 |       await lamMaker.loginLamMaker('lam.id.mkr@fintuple.com', 'Icici@124');
+  149 |     });
+  150 |   
+  151 |     test('TC_05_02: Update the details to click Resubmit the task for Maker ', async ({}) => {
+  152 |       page = await Promise.all([
+  153 |         page.waitForEvent("popup"), 
+  154 |         page.locator('//a[text()="View Task"]').click(), 
+  155 |         ]).then(([newPage]) => newPage);
+  156 |         await page.waitForLoadState();
+  157 |         await new Promise(resolve => setTimeout(resolve, 3000));
+  158 |   
+  159 |         await page.locator('//input[@id="search"]').fill(generatedEmail);
+  160 |         await page.locator('//i[@id="dropdown"]').click();
+  161 |         await page.locator('//button[@id="Re-submit Task"]').click();
+  162 |         await page.locator('//textarea[@id="internal_user_comment"]').fill("Details to  the User");
+  163 |         await page.locator('//button[@id="internal_user_submit"]').click();
+  164 |         await new Promise(resolve => setTimeout(resolve, 2000));
+  165 |   
+  166 |     });
+  167 |   
+  168 |   });
+  169 |   });
+  170 |
+  171 | //Scenario 2
+  172 |
+  173 | // test.describe('Maker Flow',()=>{
+  174 | //   test.beforeEach(async ({ page }) => {
+  175 | //     const lamMaker = new LAM_LoginPage(page);
+  176 | //     await page.goto('https://cdi-r5.finwyze.com');
+  177 | //     await lamMaker.loginLamMaker('lam.id.mkr@fintuple.com', 'Icici@124');
+  178 | //   });
+  179 |
+  180 | //   test('TC_02_01: Edit user as Maker ', async ({ page }) => {
+  181 | //     page = await Promise.all([
+  182 | //             page.waitForEvent("popup"), 
+  183 | //             page.locator('//a[text()="View Task"]').click(), 
+  184 | //             ]).then(([newPage]) => newPage);
+  185 | //             await page.waitForLoadState()
+  186 |   
+  187 | //     const lamPopup = new LAM_LoginPage(page);
+```
