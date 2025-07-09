@@ -19,7 +19,7 @@ test.beforeAll(async ({ browser }) => {
     page = await context.newPage();
     await page.goto("https://cd-r3.finwyze.com");
     const loginPage = new LoginPage(page);
-    await loginPage.login("Domestic Custody","FT.IPRU.AMCRM02@FINTUPLE.com", "Fintuple@1", "a2C4dE");
+    await loginPage.login("Domestic Custody","FT.IPRU.AMCRM02@FINTUPLE.com", "Fintuple@123", "a2C4dE");
     await loginPage.enterOTP("857362");
     await new Promise(resolve => setTimeout(resolve, 3000));
     
@@ -39,7 +39,7 @@ test("TC_02 : Click Investor Profile Dashboard Page", async () => {
 test("TC_03: Complete the basic application information to initiate the onboarding journey.", async () => {
     await new Promise(resolve => setTimeout(resolve, 3000));
     const basicInformation = new ApplicationBasicInformationPopup(page2);
-    await basicInformation.applicationBasicInformationPopup("DEMAT+PMS","MAHARASTRA","1");
+    await basicInformation.applicationBasicInformationPopup();
     console.log("Application Basic Details saved Successfully");
     await new Promise(resolve => setTimeout(resolve, 2000));
   });

@@ -124,7 +124,7 @@ export default class OfflineDocumentSection {
         //   await this.page.keyboard.press('Control+A');
         //   await this.page.keyboard.press('Backspace');
         //   await this.enterDenomination.type(denomination); 
-          await this.page.waitForTimeout(1000);
+          await new Promise(resolve => setTimeout(resolve, 2000));
           await this.clickSaveButton.click();
           await this.page.waitForTimeout(1500);
         }

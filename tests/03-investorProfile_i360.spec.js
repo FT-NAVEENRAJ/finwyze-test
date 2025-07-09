@@ -14,7 +14,7 @@ test.beforeAll(async ({ browser }) => {
     page = await context.newPage();
     await page.goto("https://cd-r3.finwyze.com/");
     const loginPage = new LoginPage(page);
-    await loginPage.login("Domestic Custody","FT.IPRU.AMCRM02@FINTUPLE.COM", "Fintuple@1", "a2C4dE");
+    await loginPage.login("Domestic Custody","FT.IPRU.AMCRM02@FINTUPLE.COM", "Fintuple@123", "a2C4dE");
     await loginPage.enterOTP("857362");
     await new Promise(resolve => setTimeout(resolve, 3000));
     });
