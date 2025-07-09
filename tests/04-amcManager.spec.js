@@ -12,7 +12,7 @@ test.beforeAll(async ({ browser }) => {
     page = await context.newPage();
     await page.goto("https://custodydigitizationuat.icicibank.com/");
     const loginPage = new LoginPage(page);
-    await loginPage.login("Domestic Custody","FTIPRU@FINTUPLE.COM", "Fintuple@1", "a2C4dE");
+    await loginPage.login("Domestic Custody","FTASK@FINTUPLE.COM", "Fintuple@1", "a2C4dE");
     const otpEntered = await loginPage.enterOTP("857362");
     if (otpEntered) {
     console.log("OTP entered successfully.");
@@ -124,10 +124,12 @@ test("TC_06: User should be able to upload stamp paper using the Offline Documen
 
 test("TC_07: Uploaded stamp paper should be validated successfully in the Offline Document section", async () => {
     const addStamp = new OfflineDocumentSection(page2);
-    await addStamp.stampPaperAddition("5","21-10-2025","MAHARASHTRA","PMS AGREEMENT","700");
+    // await addStamp.stampPaperAddition("50","21-10-2025","MAHARASHTRA","PMS AGREEMENT","1000");
+    // await new Promise(resolve => setTimeout(resolve, 2000));
+    await addStamp.stampPaperAddition("50","21-11-2025","MAHARASHTRA","POA","700");
     await new Promise(resolve => setTimeout(resolve, 2000));
-    await addStamp.stampPaperAddition("5","21-11-2025","MAHARASHTRA","POA","500");
- await new Promise(resolve => setTimeout(resolve, 2000));
+   
+
     
 });
 
