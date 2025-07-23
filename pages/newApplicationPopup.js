@@ -13,7 +13,7 @@ export default class ApplicationBasicInformationPopup {
     }
 
     async applicationBasicInformationPopup() {
-         await this.clickNewApplication.click();
+        await this.clickNewApplication.click();
         await new Promise(resolve => setTimeout(resolve, 3000));
         await this.selectInvestorType.selectOption("INDIVIDUAL");
         await this.selectResidentialType.selectOption("RESIDENT");
@@ -26,7 +26,7 @@ export default class ApplicationBasicInformationPopup {
         await this.clickProceed.click();
     }
 
-    async applicationBasicInformationPopupDemat() {
+    async applicationBasicInformationPopupDemat(noOfInvestor) {
         await this.clickNewApplication.click();
         await new Promise(resolve => setTimeout(resolve, 3000));
         await this.selectInvestorType.selectOption("INDIVIDUAL");
@@ -37,7 +37,7 @@ export default class ApplicationBasicInformationPopup {
         await new Promise(resolve => setTimeout(resolve, 2000));
         await this.selectDistributorForInvestment.check();
         await new Promise(resolve => setTimeout(resolve, 1000));
-        await this.selectInvestor.selectOption("1");
+        await this.selectInvestor.selectOption(noOfInvestor);
         await new Promise(resolve => setTimeout(resolve, 3000));
         await this.clickProceed.click();
     }

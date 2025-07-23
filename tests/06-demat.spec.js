@@ -9,44 +9,9 @@ import { globalData } from '../pages/global-data.js';
 
 
 let page, page2;
+let investordetails;
 
-test.beforeAll(async ({ browser }) => {
-
-    const context = await browser.newContext();
-    page = await context.newPage();
-    await page.goto("https://cd-r3.finwyze.com");
-    const loginPage = new LoginPage(page);
-    await loginPage.login("Domestic Custody","FT.IPRU.AMCRM02@FINTUPLE.com", "Fintuple@1", "a2C4dE");
-    await loginPage.enterOTP("857362");
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    
-  });
-test("TC_01: Login iCACE Applictaion", async () => {
-    console.log("Login as successfully Completed");
-  });
-test("TC_02 : Click Investor Profile Dashboard Page", async () => {
-    page2 = await Promise.all([
-    page.waitForEvent("popup"), 
-    page.locator('(//a[text()="Create New Application"])[1]').click(), 
-    ]).then(([newPage]) => newPage);
-    await page2.waitForLoadState();
-    console.log("Domestic Custody Application navigated successfully");
-  });
-test("TC_03: Complete the basic application information to initiate the onboarding journey.", async () => {
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    const basicInformation = new ApplicationBasicInformationPopup(page2);
-    await basicInformation.applicationBasicInformationPopupDemat();
-    console.log("Application Basic Details saved Successfully");
-    await new Promise(resolve => setTimeout(resolve, 2000));
-  });
-test("TC_04: Verify the details are fetched after entering PAN", async () => {
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    const investordetails = new InvestorDetails(page2);
-    await investordetails.ip("CURPA1355D");
-    await new Promise(resolve => setTimeout(resolve, 1000));
-  });
-test('TC_05: Verify that clicking "Fetch KYC Details" opens the KYC section', async () => {
-await new Promise(resolve => setTimeout(resolve, 10000));
+async function fillIfetchKYC(page) {
 const iframeLocator = page2.getByRole('dialog').locator('iframe');
 const frame = await iframeLocator.contentFrame();
 await frame.locator('(//input[@ng-reflect-name="mode"])[1]').check();
@@ -71,18 +36,8 @@ await frame.locator('#checkcorresSameaspermanent').check();
 await frame.getByRole('button', { name: 'Proceed' }).click();
 await frame.locator('#aadhaarBased').check();
 await frame.getByRole('button', { name: 'Proceed' }).click();
-await new Promise(resolve => setTimeout(resolve, 2000));
-
-  });
-  test('TC_06: Verify that "Add/Update" under Occupation Details navigates to occupation form', async () => {
-    await page2.locator('[id="occupationForm\\ one"]').click();
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    await page2.getByRole('button', { name: 'Proceed' }).click();
-    await new Promise(resolve => setTimeout(resolve, 1000));
-  });
-  test('TC_07: Verify that "Add/Update" under FATCA Details opens FATCA form', async () => {
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    await page2.locator('[id="fatcaPending one"]').click();
+}
+async function fillFatcaDetails(page){
     await new Promise(resolve => setTimeout(resolve, 2000));
     await page2.locator('[id="countryOfCurrentRes one"]').selectOption('India');
     await page2.locator('[id="addressArea\\ one"]').click();
@@ -95,13 +50,76 @@ await new Promise(resolve => setTimeout(resolve, 2000));
     await page2.getByRole('dialog').locator('form div').filter({ hasText: 'Are you a US Person? *YesNo' }).getByRole('radio').nth(1).check();
     await page2.locator('[id="consentStatus\\ one"]').check();
     await page2.getByRole('button', { name: 'Proceed' }).click();
+}
+
+test.beforeAll(async ({ browser }) => {
+
+    const context = await browser.newContext();
+    page = await context.newPage();
+    //await page.goto("https://custodydigitizationuat.icicibank.com/");
+    await page.goto("https://cd-r3.finwyze.com/");
+    const loginPage = new LoginPage(page);
+   // await loginPage.login("Domestic Custody","FT.IPRU.AMCRM01@FINTUPLE.com", "Fintuple@2", "a2C4dE");
+    await loginPage.login("Domestic Custody","FT.IPRU.AMCRM02@FINTUPLE.com", "Fintuple@123", "a2C4dE");
+    await loginPage.enterOTP("857362");
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    
+  });
+test("TC_01: Login iCACE Applictaion", async () => {
+    console.log("Login as successfully Completed");
+  });
+test("TC_02: Click Investor Profile Dashboard Page", async () => {
+    page2 = await Promise.all([
+    page.waitForEvent("popup"),
+    page.locator('(//a[text()="Create New Application"])[1]').click(), 
+    ]).then(([newPage]) => newPage);
+    await page2.waitForLoadState();
+    console.log("Domestic Custody Application navigated successfully");
+  });
+test("TC_03: Complete the basic application information to initiate the onboarding journey.", async () => {
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    const basicInformation = new ApplicationBasicInformationPopup(page2);
+    await basicInformation.applicationBasicInformationPopupDemat("1");
+    console.log("Application Basic Details saved Successfully");
+    await new Promise(resolve => setTimeout(resolve, 2000));
+  });
+test("TC_04: Verify the details are fetched after entering PAN", async () => {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    investordetails = new InvestorDetails(page2);
+    await investordetails.operationMode();
+    await investordetails.investorProfileFirstHolder("CURPA1355D");
+    await new Promise(resolve => setTimeout(resolve, 1000));
+  });
+test('TC_05: Verify that clicking "Fetch KYC Details" opens the KYC section', async () => {
+    await new Promise(resolve => setTimeout(resolve, 10000));
+    await fillIfetchKYC(page);
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+  });
+  test('TC_06: Verify that "Add/Update" under Occupation Details navigates to occupation form', async () => {
+    await investordetails.occupationDetailsfirst();
+    await new Promise(resolve => setTimeout(resolve, 1000));
+  });
+  test('TC_07: Verify that "Add/Update" under FATCA Details opens FATCA form', async () => {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    await investordetails.fatcaDetailsfirst();
+    await fillFatcaDetails(page);
   });
   test('TC_08: To complete the Investor Details section',async()=>{
     await new Promise(resolve => setTimeout(resolve, 2000));
     await page2.locator('app-investorform').getByRole('radio').nth(3).check();
-    await page2.getByRole('button', { name: 'Save' }).click();
-    await page2.getByRole('checkbox', { name: 'I request you to open the' }).check();
+    await page2.getByRole('button', { name: 'Save' }).nth(0).click();
+   
     await new Promise(resolve => setTimeout(resolve, 2000));
+    
+
+  //  await investordetails.investorProfileSecondHolder("CASPB5084M");
+  //  await investordetails.fillIfetchKYC(page);
+  //  await investordetails.occupationDetailsSecond();
+  //  await investordetails.fatcaDetailsSecond();
+  //   await fillFatcaDetails(page);
+
+ await page2.getByRole('checkbox', { name: 'I request you to open the' }).check();
     await page2.getByRole('button', { name: 'Proceed' }).click();
     await new Promise(resolve => setTimeout(resolve, 2000));
 
