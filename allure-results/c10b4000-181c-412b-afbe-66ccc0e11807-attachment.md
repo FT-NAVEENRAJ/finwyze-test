@@ -1,0 +1,71 @@
+# Page snapshot
+
+```yaml
+- banner:
+  - link "ICICI Bank Logo":
+    - /url: /
+    - img "ICICI Bank Logo"
+  - heading "Home Loans" [level=2]
+- article:
+  - img "Banner img"
+  - heading "Apply now to get an online sanction" [level=4]
+  - textbox "Name"
+  - textbox "Email"
+  - text: "+91"
+  - spinbutton
+  - spinbutton
+  - textbox "PAN Card Number"
+  - textbox "Home Loan Amount Required"
+  - spinbutton
+  - textbox "City (Auto fetch)" [disabled]
+  - checkbox "I agree to be bound by these Terms & Conditions and Most Important Terms & Conditions prescribed by ICICI Bank Limited. I permit ICICI Bank Limited to share my contact details with ICICI Home Finance Company. Further, I specifically permit representatives from ICICI Bank Limited & ICICI Home Finance Company to reach out to me through my registered e-mail, phone, SMS, WhatsApp messaging, or any other electronic mode or other messaging or social media platforms in relation to my home loan application." [checked]
+  - text: I agree to be bound by these
+  - link "Terms & Conditions":
+    - /url: https://www.icicibank.com/terms-condition?_ga=2.59170351.365826006.1680849363-894239963.1678362457
+  - text: and
+  - button "Most Important Terms & Conditions"
+  - text: prescribed by ICICI Bank Limited. I permit ICICI Bank Limited to share my contact details with ICICI Home Finance Company. Further, I specifically permit representatives from ICICI Bank Limited & ICICI Home Finance Company to reach out to me through my registered e-mail, phone, SMS, WhatsApp messaging, or any other electronic mode or other messaging or social media platforms in relation to my home loan application.
+  - button "Apply Now"
+- heading "Features and Benefits" [level=2]
+- heading "Nil Foreclosure Charges" [level=3]
+- paragraph: Applicable only for Home Loan with floating rate of interest
+- img "ICICI Bank"
+- heading "Attractive Interest Rate" [level=3]
+- paragraph: Repo rate linked interest rates
+- img "ICICI Bank"
+- heading "Choose your dream home" [level=3]
+- paragraph: Vast database of builder projects approved for home loan
+- img "ICICI Bank"
+- heading "Easy online application" [level=3]
+- paragraph:
+  - text: Get instant provisional sanction* in few steps
+  - heading "*T&Cs" [level=6]:
+    - emphasis: "*T&Cs"
+- img "ICICI Bank"
+- article:
+  - heading "Home Loan Interest Rate" [level=2]:
+    - button "Home Loan Interest Rate" [expanded]
+  - text: Eligible borrowers can avail Home Loan with an attractive interest rate, low Equated Monthly Instalments (EMIs) and no pre-payment charges on floating Home Loan interest rates. Flexible loan tenure with easy repayment options.
+  - heading "Home Loan Eligibility Calculator" [level=2]:
+    - button "Home Loan Eligibility Calculator"
+  - heading "Documentation" [level=2]:
+    - button "Documentation"
+  - separator
+- article:
+  - heading "Types of Mortgage Loans" [level=2]
+  - heading "Balance Transfer" [level=2]:
+    - button "Balance Transfer"
+  - heading "Home Loan Top-Up" [level=2]:
+    - button "Home Loan Top-Up"
+  - heading "Loan Against Property" [level=2]:
+    - button "Loan Against Property"
+  - heading "Home improvement Loan" [level=2]:
+    - button "Home improvement Loan"
+  - heading "Land Loan" [level=2]:
+    - button "Land Loan"
+- article:
+  - button "FAQs":
+    - text: FAQs
+    - img
+- article: "Address: Registered Office: ICICI Bank Tower, Near Chakli Circle, Old Padra Road, Vadodara 390007, Gujarat, India For any further queries, contact our toll free number – 1800 1080. *T&C apply."
+```

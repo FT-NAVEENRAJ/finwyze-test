@@ -30,6 +30,7 @@ projects: [
       'tests/10-custodyChecker.spec.js',
       'tests/modFlowNonAadhar.spec.js',
       'tests/dpsecure.spec.js',
+      'tests/IPRU_E2E.spec.js',
     ],
     fullyParallel: false,
     use: {

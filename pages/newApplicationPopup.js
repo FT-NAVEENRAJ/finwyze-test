@@ -17,7 +17,20 @@ export default class ApplicationBasicInformationPopup {
         await new Promise(resolve => setTimeout(resolve, 3000));
         await this.selectInvestorType.selectOption("INDIVIDUAL");
         await this.selectResidentialType.selectOption("RESIDENT");
-        await this.selectApplicationType.selectOption("DEMAT+PMS");
+        await this.selectApplicationType.selectOption("DEMAT+PMS");//DEMAT+PMS+BANK
+        await this.selectApplicationMode.selectOption("DIGITAL");
+        await this.selectJurisdictionOfStampPaper.selectOption("MAHARASHTRA");
+        await this.selectDistributorForInvestment.check();
+        await this.selectInvestor.selectOption("1");
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        await this.clickProceed.click();
+    }
+    async applicationBasicInformationPopupBank() {
+        await this.clickNewApplication.click();
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        await this.selectInvestorType.selectOption("INDIVIDUAL");
+        await this.selectResidentialType.selectOption("RESIDENT");
+        await this.selectApplicationType.selectOption("DEMAT+PMS+BANK");
         await this.selectApplicationMode.selectOption("DIGITAL");
         await this.selectJurisdictionOfStampPaper.selectOption("MAHARASHTRA");
         await this.selectDistributorForInvestment.check();

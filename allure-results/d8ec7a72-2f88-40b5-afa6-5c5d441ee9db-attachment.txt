@@ -1,0 +1,20 @@
+Failed to complete Application Basic Information: locator.selectOption: Test ended.
+Call log:
+  - waiting for locator('//select[@id="ApplicationType"]')
+    - locator resolved to <select id="ApplicationType" _ngcontent-ng-c1956624273="" formcontrolname="applicationType" ng-reflect-name="applicationType" class="ft-select upper-case ng-untouched ng-pristine ng-invalid">…</select>
+  - attempting select option action
+    2 × waiting for element to be visible and enabled
+      - did not find some options
+    - retrying select option action
+    - waiting 20ms
+    2 × waiting for element to be visible and enabled
+      - did not find some options
+    - retrying select option action
+      - waiting 100ms
+    168 × waiting for element to be visible and enabled
+        - did not find some options
+      - retrying select option action
+        - waiting 500ms
+
+    at ApplicationBasicInformationPopup.applicationBasicInformationPopupBank (/Users/fintuple/Documents/Projects/GitHub/finwyze-test/pages/newApplicationPopup.js:33:42)
+    at /Users/fintuple/Documents/Projects/GitHub/finwyze-test/tests/IPRU_E2E.spec.js:43:5

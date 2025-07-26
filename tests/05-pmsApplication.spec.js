@@ -17,9 +17,9 @@ test.beforeAll(async ({ browser }) => {
 
     const context = await browser.newContext();
     page = await context.newPage();
-    await page.goto("https://cd-r3.finwyze.com");
+    await page.goto("https://custodydigitizationuat.icicibank.com");
     const loginPage = new LoginPage(page);
-    await loginPage.login("Domestic Custody","FT.IPRU.AMCRM02@FINTUPLE.com", "Fintuple@123", "a2C4dE");
+    await loginPage.login("Domestic Custody","FT.IPRU.AMCRM01@FINTUPLE.com", "Fintuple@2", "a2C4dE");
     await loginPage.enterOTP("857362");
     await new Promise(resolve => setTimeout(resolve, 3000));
     
@@ -37,12 +37,19 @@ test("TC_02 : Click Investor Profile Dashboard Page", async () => {
     console.log("Domestic Custody Application navigated successfully");
   });
 test("TC_03: Complete the basic application information to initiate the onboarding journey.", async () => {
+  try {
     await new Promise(resolve => setTimeout(resolve, 3000));
     const basicInformation = new ApplicationBasicInformationPopup(page2);
     await basicInformation.applicationBasicInformationPopup();
     console.log("Application Basic Details saved Successfully");
     await new Promise(resolve => setTimeout(resolve, 2000));
-  });
+     } 
+  catch (error) {
+    console.error("Failed to complete Application Basic Information:", error);
+  throw error; 
+  }
+});
+
 test("TC_04: Verify the details are fetched after entering PAN", async () => {
     await new Promise(resolve => setTimeout(resolve, 2000));
     const investordetails = new InvestorDetails(page2);
@@ -97,8 +104,8 @@ await page2.waitForTimeout(2000);
     await page2.locator('[id="countryOfCurrentRes one"]').selectOption('India');
     await page2.locator('[id="addressArea\\ one"]').click();
     await page2.locator('[id="addressArea\\ one"]').fill('CHENNAI');
-    await page2.locator('[id="addressArea\\ one"]').press('Tab');
-    await page2.locator('[id="addressType\\ one"]').press('ArrowDown');
+    await page2.locator('//select[@id="addressType one"]').click();
+    await page2.locator('//select[@id="addressType one"]').selectOption('REGISTEREDOFFICE');
     await page2.getByRole('dialog').locator('form div').filter({ hasText: 'Are you citizen of any other country other than India (dual/multiple)? *YesNo' }).getByRole('radio').nth(1).check();
     await page2.getByRole('dialog').locator('form div').filter({ hasText: 'Is your Country of Birth any country other than India? *YesNo' }).getByRole('radio').nth(1).check();
     await page2.getByRole('dialog').locator('form div').filter({ hasText: 'Are you a Tax Resident of any country other than India? *YesNo' }).getByRole('radio').nth(1).check();
