@@ -44,6 +44,7 @@ async function fillFatcaDetails(page){
     await page2.locator('[id="addressArea\\ one"]').fill('CHENNAI');
     await page2.locator('[id="addressArea\\ one"]').press('Tab');
     await page2.locator('[id="addressType\\ one"]').press('ArrowDown');
+     await new Promise(resolve => setTimeout(resolve, 2000));
     await page2.getByRole('dialog').locator('form div').filter({ hasText: 'Are you citizen of any other country other than India (dual/multiple)? *YesNo' }).getByRole('radio').nth(1).check();
     await page2.getByRole('dialog').locator('form div').filter({ hasText: 'Is your Country of Birth any country other than India? *YesNo' }).getByRole('radio').nth(1).check();
     await page2.getByRole('dialog').locator('form div').filter({ hasText: 'Are you a Tax Resident of any country other than India? *YesNo' }).getByRole('radio').nth(1).check();
@@ -52,15 +53,15 @@ async function fillFatcaDetails(page){
     await page2.getByRole('button', { name: 'Proceed' }).click();
 }
 
+test.describe('Application RM  ', () => {
 test.beforeAll(async ({ browser }) => {
-
     const context = await browser.newContext();
     page = await context.newPage();
-    //await page.goto("https://custodydigitizationuat.icicibank.com/");
-    await page.goto("https://cd-r3.finwyze.com/");
+    await page.goto("https://custodydigitizationuat.icicibank.com/");
+    //await page.goto("https://cd-r3.finwyze.com/");
     const loginPage = new LoginPage(page);
-   // await loginPage.login("Domestic Custody","FT.IPRU.AMCRM01@FINTUPLE.com", "Fintuple@2", "a2C4dE");
-    await loginPage.login("Domestic Custody","FT.IPRU.AMCRM02@FINTUPLE.com", "Fintuple@123", "a2C4dE");
+    await loginPage.login("Domestic Custody","FT.IPRU.AMCRM01@FINTUPLE.com", "Fintuple@2", "a2C4dE");
+   // await loginPage.login("Domestic Custody","FT.IPRU.AMCRM02@FINTUPLE.com", "Fintuple@123", "a2C4dE");
     await loginPage.enterOTP("857362");
     await new Promise(resolve => setTimeout(resolve, 3000));
     
@@ -86,7 +87,7 @@ test("TC_03: Complete the basic application information to initiate the onboardi
 test("TC_04: Verify the details are fetched after entering PAN", async () => {
     await new Promise(resolve => setTimeout(resolve, 2000));
     investordetails = new InvestorDetails(page2);
-    await investordetails.operationMode();
+    //await investordetails.operationMode();
     await investordetails.investorProfileFirstHolder("CURPA1355D");
     await new Promise(resolve => setTimeout(resolve, 1000));
   });
@@ -170,8 +171,41 @@ test('TC_05: Verify that clicking "Fetch KYC Details" opens the KYC section', as
   
     
   });
+});
+ test.describe('Reviewer ', () => {
+test.beforeAll(async ({ browser }) => {
+      const context = await browser.newContext();
+      page = await context.newPage();
+      await page.goto("https://custodydigitizationuat.icicibank.com/");
+      const loginPage = new LoginPage(page);
+      await loginPage.login("Domestic Custody","FT.IPRU.AMCREVIEWER01@FINTUPLE.COM", "Fintuple@1", "a2C4dE");
+      await loginPage.enterOTP("857362");
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      });
+  test("TC_01: Login to iCACE AMC Reviewer with valid credentials", async () => {
+      page2 = await Promise.all([
+          page.waitForEvent("popup"), 
+          page.getByText('View Task').first().click(), 
+          ]).then(([newPage]) => newPage);
+          await page2.waitForLoadState();
+      });
+  test("TC_02: To click the View Task page for AMC Reviewer page", async()=>{
   
-
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        if (!globalData.applicationId) {
+          throw new Error("applicationId is not set in globalData");
+        }
+        await page2.locator('//input[@id="search"]').fill(globalData.applicationId);
+  });
+  test("TC_03: To review all PDF documents and verify the AML check is successful, then approve the task", async()=>{
+   
+      const reviewer = new AMCReviewer(page2);
+      await reviewer.amcManagerApprove();
+      await new Promise(resolve => setTimeout(resolve, 3000));
+  
+  });
+  
+ });
 
 
 

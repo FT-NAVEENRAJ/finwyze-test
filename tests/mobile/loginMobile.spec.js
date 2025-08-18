@@ -1,20 +1,190 @@
-import { test, expect, devices } from '@playwright/test';
+import { devices } from "@playwright/test";
+import LoginPage from "../pages/loginPage.js";
+import ApplicationBasicInformationPopup from '../pages/newApplicationPopup.js';
+import InvestorDetails from '../pages/investorProfile.js';
+import NomineeDetails from "../pages/nominee.js";
+import BankAccountDetails from "../pages/bankAccount.js";
+import SchemeFeeDetails from "../pages/schemeandFeeDetails.js";
+import AdditionalDetails from '../pages/additionalDetails.js';
+import DocumentUpload from "../pages/document.js";
+import { globalData } from '../pages/global-data.js';
+import AMCReviewer from "../pages/amcReviewer.js";
 
-test.use({ ...devices['Pixel 7'] }); 
-let page;
-test('Launch mobile browser and open URL', async ({ page }) => {
-    await page.goto('https://cd-r3.finwyze.com');
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    await page.locator("#custody").selectOption("Domestic Custody");
-    await page.getByPlaceholder("Enter your Email Address").fill("FT.IPRU.AMCRM02@FINTUPLE.COM");
-    await page.getByPlaceholder("Enter the Captcha Displayed Above").fill("a2C4dE");
-    await page.getByLabel("Password").fill("Fintuple@1");
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    await page.getByRole("button", { type: "submit" }).click();
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    await page.locator("#otpVerifyField").fill("857362");
-    await page.getByRole("button", { name: "submit" }).click();
-    await new Promise(resolve => setTimeout(resolve, 10000));
+// ✅ Use Pixel 7 mobile emulation
+const pixel7 = devices['Pixel 7'];
+test.use({ ...pixel7 });
 
+let page, page2;
+
+// --- RM Tests ---
+test.describe('Application RM - Mobile Emulation', () => {
+  test.beforeAll(async ({ browser }) => {
+    const context = await browser.newContext({ ...pixel7 });
+    page = await context.newPage();
+    await page.goto("https://custodydigitizationuat.icicibank.com");
+    const loginPage = new LoginPage(page);
+    await loginPage.login("Domestic Custody", "FT.IPRU.AMCRM01@FINTUPLE.com", "Fintuple@2", "a2C4dE");
+    await loginPage.enterOTP("857362");
+    await page.waitForTimeout(3000);
+  });
+
+  test("TC_01: Login iCACE Application", async () => {
+    console.log("Login successfully completed");
+  });
+
+  test("TC_02: Click Investor Profile Dashboard Page", async () => {
+    page2 = await Promise.all([
+      page.waitForEvent("popup"),
+      page.locator('(//a[text()="Create New Application"])[1]').click(),
+    ]).then(([newPage]) => newPage);
+    await page2.waitForLoadState();
+    console.log("Domestic Custody Application navigated successfully");
+  });
+
+  test("TC_03: Complete the basic application information", async () => {
+    const basicInformation = new ApplicationBasicInformationPopup(page2);
+    await page2.waitForTimeout(3000);
+    await basicInformation.applicationBasicInformationPopupBank();
+    console.log("Application Basic Details saved Successfully");
+  });
+
+  test("TC_04: Enter PAN and fetch details", async () => {
+    const investordetails = new InvestorDetails(page2);
+    await page2.waitForTimeout(2000);
+    await investordetails.investorProfileFirstHolder("CURPA1355D");
+  });
+
+  test("TC_05: Complete KYC Upload", async () => {
+    await page2.waitForTimeout(15000);
+    const kycFrame = await page2.locator('#kycfame').contentFrame();
+    await kycFrame.locator('(//input[@ng-reflect-name="mode"])[1]').check();
+    await kycFrame.locator('#pdfupload').setInputFiles('Files/Sample.pdf');
+    await kycFrame.getByRole('button', { name: 'Proceed' }).click();
+    await kycFrame.getByRole('checkbox', { name: 'I authorise ICICI Bank Ltd.' }).check();
+    await kycFrame.getByRole('button', { name: 'Proceed' }).click();
+
+    const dialogFrame = await page2.getByRole('dialog').locator('iframe').contentFrame();
+    await dialogFrame.locator('path').click();
+    await dialogFrame.getByRole('button', { name: 'Yes' }).click();
+    await dialogFrame.locator('#Full_name_prefix').first().selectOption('MR');
+    await dialogFrame.locator('#MMaiden_Name_prefix').selectOption('MS');
+    await dialogFrame.locator('.ft-input-edit > .group > .col-md-12').first().fill('MAHa');
+    await dialogFrame.locator('#FatherName_prefix').selectOption('MR');
+    await dialogFrame.locator('#Father_Spouse_relationship').first().selectOption('FATHER');
+    await dialogFrame.locator('#Place_of_birth').fill('CHENNAi');
+    await dialogFrame.locator('#Residential').check();
+    await dialogFrame.locator('#cdistrict').fill('CHENNAi').press('Tab');
+    await dialogFrame.locator('div:nth-child(3) > div:nth-child(3) > .ft-input-edit > .group > .col-md-12').press('Tab');
+    await dialogFrame.locator('#checkcorresSameaspermanent').check();
+    await dialogFrame.getByRole('button', { name: 'Proceed' }).click();
+    await dialogFrame.locator('#aadhaarBased').check();
+    await dialogFrame.getByRole('button', { name: 'Proceed' }).click();
+  });
+
+  test("TC_06: Occupation Form", async () => {
+    await page2.locator('[id="occupationForm\\ one"]').click();
+    await page2.waitForTimeout(2000);
+    await page2.getByRole('button', { name: 'Proceed' }).click();
+  });
+
+  test("TC_07: FATCA Form", async () => {
+    await page2.waitForTimeout(2000);
+    await page2.locator('[id="fatcaPending one"]').click();
+    await page2.waitForTimeout(2000);
+    await page2.locator('[id="countryOfCurrentRes one"]').selectOption('India');
+    await page2.locator('[id="addressArea\\ one"]').fill('CHENNAI');
+    await page2.locator('//select[@id="addressType one"]').selectOption('REGISTEREDOFFICE');
+    await page2.getByRole('dialog').locator('form div').getByRole('radio').nth(1).check();
+    await page2.locator('[id="consentStatus\\ one"]').check();
+    await page2.getByRole('button', { name: 'Proceed' }).click();
+  });
+
+  test("TC_08: Complete Investor Details", async () => {
+    await page2.waitForTimeout(2000);
+    await page2.locator('app-investorform').getByRole('radio').nth(3).check();
+    await page2.getByRole('button', { name: 'Save' }).click();
+    await page2.getByRole('checkbox', { name: 'I request you to open the' }).check();
+    await page2.getByRole('button', { name: 'Proceed' }).click();
+  });
+
+  test("TC_09: Add Nominee Details", async () => {
+    const nominee = new NomineeDetails(page2);
+    await nominee.applicationNomineeSelection();
+  });
+
+  test("TC_10: Bank A/C Details", async () => {
+    const addAccount = new BankAccountDetails(page2);
+    await addAccount.completeBankAccountOpening();
+    await addAccount.bankRiskProfile("Undergraduate", "SALARIED", "3TO5YEARS", "LESSTHAN10LAC", "25CRTO100CR", "IT COMPANY", "NA", "BUSINESSINCOME");
+    await page.keyboard.press('PageDown');
+    await addAccount.bankNomineeDetails();
+  });
+
+  test("TC_11: Select Bank A/C for Investment", async () => {
+    const addAccount = new BankAccountDetails(page2);
+    await addAccount.selectBankAccountDetails();
+  });
+
+  test("TC_12: Scheme and Fee", async () => {
+    const scheme = new SchemeFeeDetails(page2);
+    await scheme.selectSchemeandFeeDetails("10000000");
+  });
+
+  test("TC_13: Complete Risk Questions", async () => {
+    const limit = new AdditionalDetails(page2);
+    await limit.addRiskQuestion();
+  });
+
+  test("TC_14: Disclosure Section", async () => {
+    const limit = new AdditionalDetails(page2);
+    await limit.disclosure();
+  });
+
+  test("TC_15: Additional Details", async () => {
+    const limit = new AdditionalDetails(page2);
+    await limit.proceedLimitsandSecurities();
+  });
+
+  test("TC_16: Document Upload", async () => {
+    const docUpload = new DocumentUpload(page2);
+    await docUpload.documentUpload();
+    await page2.waitForTimeout(25000);
+  });
+
+  test("TC_17: Verify Summary Page", async () => {
+    await page2.waitForTimeout(50000);
+    globalData.applicationId = await page2.locator('(//a[@class="link"])[1]').textContent()?.then(text => text?.trim());
+    console.log("Global Application ID:", globalData.applicationId);
+  });
 });
-hai 
+
+// --- AMC Reviewer Tests ---
+test.describe('AMC Reviewer - Mobile Emulation', () => {
+  test.beforeAll(async ({ browser }) => {
+    const context = await browser.newContext({ ...pixel7 });
+    page = await context.newPage();
+    await page.goto("https://custodydigitizationuat.icicibank.com");
+    const loginPage = new LoginPage(page);
+    await loginPage.login("Domestic Custody", "FT.IPRU.AMCREVIEWER01@FINTUPLE.COM", "Fintuple@1", "a2C4dE");
+    await loginPage.enterOTP("857362");
+    await page.waitForTimeout(3000);
+  });
+
+  test("TC_01: Open View Task", async () => {
+    page2 = await Promise.all([
+      page.waitForEvent("popup"),
+      page.getByText('View Task').first().click(),
+    ]).then(([newPage]) => newPage);
+    await page2.waitForLoadState();
+  });
+
+  test("TC_02: Search Application ID", async () => {
+    if (!globalData.applicationId) throw new Error("applicationId is not set in globalData");
+    await page2.locator('//input[@id="search"]').fill(globalData.applicationId);
+  });
+
+  test("TC_03: Approve Task", async () => {
+    const reviewer = new AMCReviewer(page2);
+    await reviewer.amcManagerApprove();
+  });
+});

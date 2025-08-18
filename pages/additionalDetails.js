@@ -31,7 +31,7 @@ this.question_two = page.locator('(//input[@type="radio"])[8]');
 async addRiskQuestion(){
     await new Promise(resolve => setTimeout(resolve, 1000));
     await this.clickRiskProfileHyperlink.click();
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
     await this.selectQuestion1.selectOption('OPTION_2');
     await this.selectQuestion2.check();
     await this.selectQuestion3.check();
@@ -50,6 +50,43 @@ async addRiskQuestion(){
     await this.clickRiskProceed.click();
     
 }
+async addRiskQuestion2() {
+    // First Holder
+    await this.clickRiskProfileHyperlink.click();
+    await this.selectQuestion1.first().selectOption('OPTION_2');
+    await this.selectQuestion2.first().check();
+    await this.selectQuestion3.first().check();
+    await this.selectQuestion4.first().check();
+    await this.selectQuestion5.first().check();
+    await this.selectQuestion6.first().check();
+    await this.selectQuestion7.first().check();
+    await this.selectQuestion8.first().check();
+    await this.selectQuestion9.first().check();
+    await this.selectQuestion10.first().check();
+    await this.selectQuestion11.first().selectOption('OPTION_2');
+    await this.selectQuestion12.first().selectOption('OPTION_2');
+    await this.selectQuestion13.first().selectOption('OPTION_3');
+
+    // Second Holder
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    await this.selectQuestion1.nth(1).selectOption('OPTION_2');
+    await this.selectQuestion2.nth(1).check();
+    await this.selectQuestion3.nth(1).check();
+    await this.selectQuestion4.nth(1).check();
+    await this.selectQuestion5.nth(1).check();
+    await this.selectQuestion6.nth(1).check();
+    await this.selectQuestion7.nth(1).check();
+    await this.selectQuestion8.nth(1).check();
+    await this.selectQuestion9.nth(1).check();
+    await this.selectQuestion10.nth(1).check();
+    await this.selectQuestion11.nth(1).selectOption('OPTION_2');
+    await this.selectQuestion12.nth(1).selectOption('OPTION_2');
+    await this.selectQuestion13.nth(1).selectOption('OPTION_3');
+
+    // Proceed
+    await this.clickRiskProceed.click();
+}
+
 
 async disclosure(){
     await new Promise(resolve => setTimeout(resolve, 1000));

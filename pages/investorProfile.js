@@ -2,7 +2,7 @@ export default class InvestorDetails{
     constructor(page){
    
         this.page =page;
-        this.modeofOperation = page.locator('(//input[@id="Jointly"])[1]');
+        this.modeofOperation = page.locator('(//input[@id="modeOfOperation Jointly"])[1]');
         this.enterFirstHolderPAN = page.locator('//input[@id="search one"]');
         this.enterSecondHolderPAN = page.locator('//input[@id="search two"]');
         this.enterThirdHolderPAN = page.locator('//input[@id="search three"]');
@@ -26,47 +26,43 @@ export default class InvestorDetails{
 
     }
 
-    async operationMode(){
-       if (await this.modeofOperation.isVisible() && await this.modeofOperation.isEnabled()) {
-       await this.modeofOperation.click();
-       }
-       else {
-       console.log("Mode of operation button is either hidden or disabled");
+//   async operationMode() {
+//   const isVisible = await this.modeofOperation.isVisible();
+//   const isEnabled = await this.modeofOperation.isEnabled();
+
+//   if (isVisible && isEnabled) {
+//     await this.modeofOperation.check();
+//   } else {
+//     console.log("Mode of operation checkbox is either hidden or disabled");
+//   }
+// }
+
+    async investorProfileFirstHolder(pan1) {
+    await this.enterFirstHolderPAN.click();
+    await this.enterFirstHolderPAN.fill(pan1);
+    await this.clickGoIconFirst.click();
+    await this.clickFetchKYCFirstHolder.waitFor({ state: 'visible', timeout: 5000 });
+    await this.clickFetchKYCFirstHolder.click();
 }
 
-    }
-    async investorProfileFirstHolder(pan1){
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        await this.enterFirstHolderPAN.click();
-        await this.enterFirstHolderPAN.fill(pan1);
-        await this.clickGoIconFirst.click();
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        await this.clickFetchKYCFirstHolder.click();
+
+    async investorProfileSecondHolder(pan2) {
+    await this.enterSecondHolderPAN.click();
+    await this.enterSecondHolderPAN.fill(pan2);
+    await this.clickGoIconSecond.click();
+    await this.clickFetchKYCSecondHolder.waitFor({ state: 'visible', timeout: 5000 });
+    await this.clickFetchKYCSecondHolder.click();
+}
 
 
-    }
+     async investorProfileThirdHolder(pan3) {
+    await this.enterThirdHolderPAN.click();
+    await this.enterThirdHolderPAN.fill(pan3);
+    await this.clickGoIconThird.click();
+    await this.clickFetchKYCThirdHolder.waitFor({ state: 'visible', timeout: 5000 });
+    await this.clickFetchKYCThirdHolder.click();
+}
 
-    async investorProfileSecondHolder(pan2){
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        await this.enterSecondHolderPAN.click();
-        await this.enterSecondHolderPAN.fill(pan2);
-        await this.clickGoIconSecond.click();
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        await this.clickFetchKYCSecondHolder.click();
-
-
-    }
-
-     async investorProfileThirdHolder(pan3){
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        await this.enterThirdHolderPAN.click();
-        await this.enterThirdHolderPAN.fill(pan3);
-        await this.clickGoIconThird.click();
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        await this.clickFetchKYCThirdHolder.click();
-
-
-    }
     async occupationDetailsfirst(){
         await this.firstHolderOccupationDetails.click();
         await this.occupationDetailsProceed.click();

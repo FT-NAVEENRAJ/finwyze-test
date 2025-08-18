@@ -12,16 +12,16 @@ export default class ApplicationBasicInformationPopup {
         this.clickProceed = page.getByText('Proceed');
     }
 
-    async applicationBasicInformationPopup() {
+    async applicationBasicInformationPopup(number) {
         await this.clickNewApplication.click();
         await new Promise(resolve => setTimeout(resolve, 3000));
-        await this.selectInvestorType.selectOption("INDIVIDUAL");
-        await this.selectResidentialType.selectOption("RESIDENT");
+        // await this.selectInvestorType.selectOption("INDIVIDUAL");
+        // await this.selectResidentialType.selectOption("RESIDENT");
         await this.selectApplicationType.selectOption("DEMAT+PMS");//DEMAT+PMS+BANK
         await this.selectApplicationMode.selectOption("DIGITAL");
         await this.selectJurisdictionOfStampPaper.selectOption("MAHARASHTRA");
         await this.selectDistributorForInvestment.check();
-        await this.selectInvestor.selectOption("1");
+        await this.selectInvestor.selectOption(number);
         await new Promise(resolve => setTimeout(resolve, 3000));
         await this.clickProceed.click();
     }

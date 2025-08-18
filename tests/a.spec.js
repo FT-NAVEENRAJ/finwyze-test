@@ -16,12 +16,9 @@ test.beforeAll(async ({ browser }) => {
 
     const context = await browser.newContext();
     page = await context.newPage();
-    await page.goto("https://custodydigitizationuat.icicibank.com");
-    //await page.goto("https://cd-r3.finwyze.com");
+    await page.goto("https://cd-r5.finwyze.com");
     const loginPage = new LoginPage(page);
-    await loginPage.login("Domestic Custody","FT.IPRU.AMCRM01@FINTUPLE.com", "Fintuple@2", "a2C4dE");
-    //await loginPage.login("Domestic Custody","FT.ASK.AMCRM01@FINTUPLE.com", "Fintuple@1", "a2C4dE");
-    await loginPage.enterOTP("857362");
+    await loginPage.login("Domestic Custody","FT.IPRU.AMCRM01@FINTUPLE.com", "Fintuple@21", "a2C4dE");
     await new Promise(resolve => setTimeout(resolve, 3000));
     
   });
@@ -41,7 +38,7 @@ test("TC_03: Complete the basic application information to initiate the onboardi
   try {
     await new Promise(resolve => setTimeout(resolve, 3000));
     const basicInformation = new ApplicationBasicInformationPopup(page2);
-    await basicInformation.applicationBasicInformationPopup();
+    await basicInformation.applicationBasicInformationPopup("2");
     console.log("Application Basic Details saved Successfully");
     await new Promise(resolve => setTimeout(resolve, 2000));
      } 
@@ -51,74 +48,119 @@ test("TC_03: Complete the basic application information to initiate the onboardi
   }
 });
 
-test("TC_04: Verify the details are fetched after entering PAN", async () => {
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    const investordetails = new InvestorDetails(page2);
-    await investordetails.investorProfileFirstHolder("CASPB5084M");
-    await new Promise(resolve => setTimeout(resolve, 1000));
-  });
-test('TC_05: Verify that clicking "Fetch KYC Details" opens the KYC section', async () => {
-    await new Promise(resolve => setTimeout(resolve, 15000));
-    // Get frame for KYC upload
-const kycFrame = await page2.locator('#kycfame').contentFrame();
-await kycFrame.locator('(//input[@ng-reflect-name="mode"])[1]').check();
-await page2.locator('#kycfame').contentFrame().locator('//input[@id="pdfupload"]').setInputFiles('Files/Sample.pdf');
-
-//await kycFrame.locator('#kycfame').locator('#pdfupload').setInputFiles('Files/Sample.pdf'); // file uploads need element handle
-await kycFrame.getByRole('button', { name: 'Proceed' }).click();
-await kycFrame.getByRole('checkbox', { name: 'I authorise ICICI Bank Ltd.' }).check();
-await kycFrame.getByRole('button', { name: 'Proceed' }).click();
-
-// Get frame from dialog iframe
-const dialogFrame = await page2.getByRole('dialog').locator('iframe').contentFrame();
-await dialogFrame.locator('path').click();
-await dialogFrame.getByRole('button', { name: 'Yes' }).click();
-await dialogFrame.locator('#Full_name_prefix').first().selectOption('MR');
-await dialogFrame.locator('#MMaiden_Name_prefix').selectOption('MS');
-await dialogFrame.locator('.ft-input-edit > .group > .col-md-12').first().click();
-await dialogFrame.locator('.ft-input-edit > .group > .col-md-12').first().fill('MAHa');
-await dialogFrame.locator('#FatherName_prefix').selectOption('MR');
-await dialogFrame.locator('#Father_Spouse_relationship').first().selectOption('FATHER');
-await dialogFrame.locator('#Place_of_birth').fill('CHENNAi');
-await dialogFrame.locator('#Residential').check();
-await dialogFrame.locator('#cdistrict').fill('CHENNAi');
-await dialogFrame.locator('#cdistrict').press('Tab');
-await dialogFrame.locator('div:nth-child(3) > div:nth-child(3) > .ft-input-edit > .group > .col-md-12').press('Tab');
-await dialogFrame.locator('#checkcorresSameaspermanent').check();
-await dialogFrame.getByRole('button', { name: 'Proceed' }).click();
-await dialogFrame.locator('#aadhaarBased').check();
-await dialogFrame.getByRole('button', { name: 'Proceed' }).click();
-
-await page2.waitForTimeout(2000); 
-
-  });
-  test('TC_06: Verify that "Add/Update" under Occupation Details navigates to occupation form', async () => {
-    await page2.locator('[id="occupationForm\\ one"]').click();
-    await new Promise(resolve => setTimeout(resolve, 2000));
+  test('First Holder Investor Flow', async () => {
+    await page2.locator('#search\\ one').fill('CURPA1355D');
+    await page2.locator('#investorPanCheck\\ one').click();
+    if (!(await page2.locator('#modeOfOperation\\ Jointly').isChecked())) {
+      await page2.locator('#modeOfOperation\\ Jointly').check();
+    }
+    await page2.locator('#FETCH\\ one').click();
+    const kycFrame = await page2.locator('#kycfame').contentFrame();
+    if (!(await kycFrame.locator('#mode\\ DOCUMENT').isChecked())) {
+      await kycFrame.locator('#mode\\ DOCUMENT').check();
+    }
+    await page2.waitForTimeout(15000);
+    await kycFrame.locator('#pdfupload').setInputFiles('Files/Sample.pdf');
+    await page2.waitForTimeout(2000);
+    await kycFrame.getByRole('button', { name: 'Proceed' }).click();
+    await kycFrame.getByRole('checkbox', { name: 'I authorise ICICI Bank Ltd.' }).check();
+    await kycFrame.getByRole('button', { name: 'Proceed' }).click();
+    await page2.waitForTimeout(2000);
+    const dialogFrame = await page2.getByRole('dialog').locator('iframe').contentFrame();
+    await dialogFrame.locator('path').click();
+    await dialogFrame.getByRole('button', { name: 'Yes' }).click();
+    await dialogFrame.locator('#Full_name_prefix').first().selectOption('MR');
+    await dialogFrame.locator('#MMaiden_Name_prefix').selectOption('MS');
+    await dialogFrame.locator('.ft-input-edit > .group > .col-md-12').first().fill('MAHa');
+    await dialogFrame.locator('#FatherName_prefix').selectOption('MR');
+    await dialogFrame.locator('#Father_Spouse_relationship').first().selectOption('FATHER');
+    await dialogFrame.locator('#Place_of_birth').fill('CHENNAI');
+    await dialogFrame.locator('#Residential').check();
+    await page2.waitForTimeout(2000);
+    await dialogFrame.locator('#cdistrict').fill('CHENNAI');
+    await dialogFrame.locator('#checkcorresSameaspermanent').check();
+    await dialogFrame.getByRole('button', { name: 'Proceed' }).click();
+    await dialogFrame.locator('#aadhaarBased').check();
+    await dialogFrame.getByRole('button', { name: 'Proceed' }).click();
+    await page2.waitForTimeout(2000);
+    await page2.locator('#occupationForm\\ one').click();
+    await page2.waitForTimeout(2000);
     await page2.getByRole('button', { name: 'Proceed' }).click();
-    await new Promise(resolve => setTimeout(resolve, 1000));
-  });
-  test('TC_07: Verify that "Add/Update" under FATCA Details opens FATCA form', async () => {
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    await page2.locator('[id="fatcaPending one"]').click();
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    await page2.locator('[id="countryOfCurrentRes one"]').selectOption('India');
-    await page2.locator('[id="addressArea\\ one"]').click();
-    await page2.locator('[id="addressArea\\ one"]').fill('CHENNAI');
-    await page2.locator('//select[@id="addressType one"]').click();
-    await page2.locator('//select[@id="addressType one"]').selectOption('REGISTEREDOFFICE');
-    await page2.getByRole('dialog').locator('form div').filter({ hasText: 'Are you citizen of any other country other than India (dual/multiple)? *YesNo' }).getByRole('radio').nth(1).check();
-    await page2.getByRole('dialog').locator('form div').filter({ hasText: 'Is your Country of Birth any country other than India? *YesNo' }).getByRole('radio').nth(1).check();
-    await page2.getByRole('dialog').locator('form div').filter({ hasText: 'Are you a Tax Resident of any country other than India? *YesNo' }).getByRole('radio').nth(1).check();
-    await page2.getByRole('dialog').locator('form div').filter({ hasText: 'Are you a US Person? *YesNo' }).getByRole('radio').nth(1).check();
-    await page2.locator('[id="consentStatus\\ one"]').check();
+    await page2.waitForTimeout(1000);
+    await page2.locator('#fatcaPending\\ one').click();
+    await page2.waitForTimeout(2000);
+    await page2.locator('#countryOfCurrentRes\\ one').selectOption('India');
+    await page2.locator('#addressArea\\ one').fill('CHENNAI');
+    await page2.locator('#addressType\\ one').selectOption('REGISTEREDOFFICE');
+    const fatcaDialog = page2.getByRole('dialog');
+    await fatcaDialog.locator('form div').filter({ hasText: 'Are you citizen of any other country' }).getByRole('radio').nth(1).check();
+    await fatcaDialog.locator('form div').filter({ hasText: 'Is your Country of Birth any country' }).getByRole('radio').nth(1).check();
+    await fatcaDialog.locator('form div').filter({ hasText: 'Are you a Tax Resident of any country' }).getByRole('radio').nth(1).check();
+    await fatcaDialog.locator('form div').filter({ hasText: 'Are you a US Person?' }).getByRole('radio').nth(1).check();
+    await page2.locator('#consentStatus\\ one').check();
     await page2.getByRole('button', { name: 'Proceed' }).click();
-  });
-  test('TC_08: To complete the Investor Details section',async()=>{
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await page2.waitForTimeout(2000);
     await page2.locator('app-investorform').getByRole('radio').nth(3).check();
-    await page2.getByRole('button', { name: 'Save' }).click();
-    await page2.getByRole('checkbox', { name: 'I request you to open the' }).check();
+    await page2.locator('#onSaveInvestorDetails\\ one').click();
+    await page2.waitForTimeout(2000);
+  });
+//input[@id="consented"]
+//button[@id="proceed"]
+  test('Second Holder Investor Flow', async () => {
+    await page2.waitForTimeout(2000);
+    await page2.keyboard.press('PageDown');
+    await page2.waitForTimeout(2000);
+    await page2.locator('#search\\ two').click();
+    await page2.locator('#search\\ two').fill('CASPB5084M');
+    await page2.locator('#investorPanCheck\\ two').click();
+    await page2.locator('#FETCH\\ two').click();
+    await page2.locator('//select[@id="familyDeclaration two"]').selectOption("ME");
+    const kycFrame2 = await page2.locator('#kycfame').contentFrame();
+    if (!(await kycFrame2.locator('#mode\\ DOCUMENT').isChecked())) {
+      await kycFrame2.locator('#mode\\ DOCUMENT').check();
+    }
+    await page2.waitForTimeout(15000);
+    await kycFrame2.locator('#pdfupload').setInputFiles('Files/Sample.pdf');
+    await kycFrame2.getByRole('button', { name: 'Proceed' }).click();
+    await kycFrame2.getByRole('checkbox', { name: 'I authorise ICICI Bank Ltd.' }).check();
+    await kycFrame2.getByRole('button', { name: 'Proceed' }).click();
+    await page2.waitForTimeout(2000);
+    await kycFrame2.locator('#Full_name_prefix').first().selectOption('MR');
+    await kycFrame2.locator('#MMaiden_Name_prefix').selectOption('MR');
+    await kycFrame2.locator('#FatherName_prefix').selectOption('MR');
+    await kycFrame2.locator('.ft-input-edit > .group > .col-md-12').first().fill('TEST');
+    await kycFrame2.locator('#Father_Spouse_relationship').first().selectOption('FATHER');
+    await kycFrame2.locator('#Place_of_birth').fill('CHENNAI');
+    await kycFrame2.locator('#Residential').check();
+    await kycFrame2.locator('#cdistrict').fill('CHENNAI');
+    await kycFrame2.locator('//input[@id="pResidential"]').nth(1).check();
+    await kycFrame2.locator('//input[@id="pdistrict"]').fill("Chennai");
+    await kycFrame2.getByRole('button', { name: 'Proceed' }).click();
+    await page2.waitForTimeout(2000);
+    await page2.locator('#occupationForm\\ two').click();
+    await page2.getByRole('button', { name: 'Proceed' }).click();
+    await page2.waitForTimeout(2000);
+    await page2.locator('#fatcaPending\\ two').click();
+    await page2.waitForTimeout(2000);
+    await page2.locator('#countryOfCurrentRes\\ two').selectOption('India');
+    await page2.locator('#addressArea\\ two').fill('CHENNAI');
+    await page2.locator('#addressType\\ two').selectOption('BUSINESS');
+    const fatcaDialog2 = page2.getByRole('dialog');
+    await fatcaDialog2.locator('form div').filter({ hasText: 'Are you citizen of any other country' }).getByRole('radio').nth(1).check();
+    await fatcaDialog2.locator('form div').filter({ hasText: 'Are you a Tax Resident of any country' }).getByRole('radio').nth(1).check();
+    await fatcaDialog2.locator('form div').filter({ hasText: 'Is your Country of Birth any country' }).getByRole('radio').nth(1).check();
+    await fatcaDialog2.locator('form div').filter({ hasText: 'Are you a US Person?' }).getByRole('radio').nth(1).check();
+    await page2.locator('#consentStatus\\ two').check();
+    await page2.getByRole('button', { name: 'Proceed' }).click();
+    await page2.waitForTimeout(2000);
+    await page2.locator('app-investorform').filter({ hasText: 'Second Investor * CASPB5084M' }).getByRole('radio').nth(3).check();
+    await page2.locator('#onSaveInvestorDetails\\ two').click();
+    await page2.waitForTimeout(2000);
+  });
+
+  test('TC_08: To complete the Investor Details section',async()=>{
+    await page2.waitForTimeout(2000);
+    await page2.locator('//input[@id="consented"]').check();
     await new Promise(resolve => setTimeout(resolve, 2000));
     await page2.getByRole('button', { name: 'Proceed' }).click();
     await new Promise(resolve => setTimeout(resolve, 2000));
@@ -139,7 +181,7 @@ await page2.waitForTimeout(2000);
   //   await page.keyboard.press('PageDown');
   //   await addAccount.bankNomineeDetails();
 
-  // });
+  // })
   test('TC_11: Select the bank account(s) details for used during the investment.', async()=>{
     const addAccount = new BankAccountDetails(page2);
     await addAccount.selectBankAccountDetails();
@@ -155,7 +197,8 @@ await page2.waitForTimeout(2000);
 
   test("TC_13: Investor to click the Risk Profile sevction and complete the investment risk Questions", async()=>{
     const limit = new AdditionalDetails(page2);
-    await limit.addRiskQuestion();
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    await limit.addRiskQuestion2();
     await new Promise(resolve => setTimeout(resolve, 1000));
 
   });

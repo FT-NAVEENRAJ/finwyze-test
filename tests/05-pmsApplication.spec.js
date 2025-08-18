@@ -8,11 +8,10 @@ import SchemeFeeDetails from "../pages/schemeandFeeDetails.js";
 import AdditionalDetails from '../pages/additionalDetails.js';
 import DocumentUpload from "../pages/document.js";
 import { globalData } from '../pages/global-data.js';
-import { defaultMaxListeners } from "events";
-
+import AMCReviewer  from "../pages/amcReviewer.js";
 
 let page, page2;
-
+test.describe('Application RM  ', () => {
 test.beforeAll(async ({ browser }) => {
 
     const context = await browser.newContext();
@@ -40,7 +39,7 @@ test("TC_03: Complete the basic application information to initiate the onboardi
   try {
     await new Promise(resolve => setTimeout(resolve, 3000));
     const basicInformation = new ApplicationBasicInformationPopup(page2);
-    await basicInformation.applicationBasicInformationPopup();
+    await basicInformation.applicationBasicInformationPopup("1");
     console.log("Application Basic Details saved Successfully");
     await new Promise(resolve => setTimeout(resolve, 2000));
      } 
@@ -92,6 +91,7 @@ await page2.waitForTimeout(2000);
 
   });
   test('TC_06: Verify that "Add/Update" under Occupation Details navigates to occupation form', async () => {
+    await page2.waitForTimeout(2000); 
     await page2.locator('[id="occupationForm\\ one"]').click();
     await new Promise(resolve => setTimeout(resolve, 2000));
     await page2.getByRole('button', { name: 'Proceed' }).click();
@@ -130,40 +130,49 @@ await page2.waitForTimeout(2000);
    await new Promise(resolve => setTimeout(resolve, 2000));
   });
 
-  test('TC_10: Select the bank account(s) details for used during the investment.', async()=>{
+  // test('TC_10:  Complete the Bank A/C Opening details for this application in the section below ', async()=>{
+  //   const addAccount = new BankAccountDetails(page2);
+  //   await addAccount.completeBankAccountOpening();
+  //   await new Promise(resolve => setTimeout(resolve, 1000));
+  //   await addAccount.bankRiskProfile("Undergraduate","SALARIED","3TO5YEARS","LESSTHAN10LAC","25CRTO100CR","IT COMPANY","NA","BUSINESSINCOME");
+  //   await page.keyboard.press('PageDown');
+  //   await addAccount.bankNomineeDetails();
+
+  // })
+  test('TC_11: Select the bank account(s) details for used during the investment.', async()=>{
     const addAccount = new BankAccountDetails(page2);
     await addAccount.selectBankAccountDetails();
     await new Promise(resolve => setTimeout(resolve, 1000));
   });
 
-  test("TC_11: Select the Schemes, Fee Type, and fill in the investment amount", async()=>{
+  test("TC_12: Select the Schemes, Fee Type, and fill in the investment amount", async()=>{
     const scheme = new SchemeFeeDetails(page2);
     await scheme.selectSchemeandFeeDetails("10000000");
     await new Promise(resolve => setTimeout(resolve, 1000));
 
   });
 
-  test("TC_12: Investor to click the Risk Profile sevction and complete the investment risk Questions", async()=>{
+  test("TC_13: Investor to click the Risk Profile sevction and complete the investment risk Questions", async()=>{
     const limit = new AdditionalDetails(page2);
     await limit.addRiskQuestion();
     await new Promise(resolve => setTimeout(resolve, 1000));
 
   });
 
-  test('TC_13: Verify Disclosure of Interest and Exclusions Section Functionality', async()=>{
+  test('TC_14: Verify Disclosure of Interest and Exclusions Section Functionality', async()=>{
     const limit = new AdditionalDetails(page2);
     await limit.disclosure();
     await new Promise(resolve => setTimeout(resolve, 1000));
   });
 
-  test('TC_14: Verify the Additional Details functionality', async()=>{
+  test('TC_15: Verify the Additional Details functionality', async()=>{
     const limit = new AdditionalDetails(page2);
     await limit.proceedLimitsandSecurities();
     console.log("Additional Details Section completed Successfully");
     await new Promise(resolve => setTimeout(resolve, 4000));
   });
 
-  test("TC_15: Select the documents required to complete the application", async()=>{
+  test("TC_16: Select the documents required to complete the application", async()=>{
     const docUpload = new DocumentUpload(page2);
     await docUpload.documentUpload();
     await new Promise(resolve => setTimeout(resolve, 4000));
@@ -172,7 +181,7 @@ await page2.waitForTimeout(2000);
 
   });
 
-  test("TC_16: verify the application Summary Page ", async()=>{
+  test("TC_17: verify the application Summary Page ", async()=>{
     await new Promise(resolve => setTimeout(resolve, 50000));
          
         const pmsFormLink = await page2.getByRole('link', { name: 'Click here to View', exact: true }).nth(0);
@@ -196,8 +205,42 @@ await page2.waitForTimeout(2000);
         console.log("Global Application ID   :", globalData.applicationId);
 
 });
+});
+test.describe('AMC Reviewer ', () => {
+    test.beforeAll(async ({ browser }) => {
+        const context = await browser.newContext();
+        page = await context.newPage();
+        await page.goto("https://custodydigitizationuat.icicibank.com");
+        const loginPage = new LoginPage(page);
+        await loginPage.login("Domestic Custody","FT.IPRU.AMCREVIEWER01@FINTUPLE.COM", "Fintuple@1", "a2C4dE");
+        await loginPage.enterOTP("857362");
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        });
+    test("TC_01: Login to iCACE AMC Reviewer with valid credentials", async () => {
+        page2 = await Promise.all([
+            page.waitForEvent("popup"), 
+            page.getByText('View Task').first().click(), 
+            ]).then(([newPage]) => newPage);
+            await page2.waitForLoadState();
+        });
+    test("TC_02: To click the View Task page for AMC Reviewer page", async()=>{
     
-  
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          if (!globalData.applicationId) {
+            throw new Error("applicationId is not set in globalData");
+          }
+          await page2.locator('//input[@id="search"]').fill(globalData.applicationId);
+    });
+    test("TC_03: To review all PDF documents and verify the AML check is successful, then approve the task", async()=>{
+     
+        const reviewer = new AMCReviewer(page2);
+        await reviewer.amcManagerApprove();
+        await new Promise(resolve => setTimeout(resolve, 3000));
+    
+    });
+    
+});
+
   
 
 
