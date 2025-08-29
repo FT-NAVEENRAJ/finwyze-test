@@ -13,8 +13,20 @@ export default class LoginPage{
       this.enterEmailID = page.getByLabel("Email ID");
       this.clickResentCredentials = page.locator('//input[@value="Reset Credentials"]');
 
+      // kotak application
+      this.enterEmailAddress = page.locator('//input[@placeholder="Email"]');
+      this.enterPassword = page.locator('//input[@placeholder="Password"]');
+      this.clickLoginButtton = page.locator('//button[text()="Login"]');
 
 
+
+
+    }
+
+    async kotakLogin(emailAddress,password){
+      await this.enterEmailAddress.fill(emailAddress);
+      await this.enterPassword.fill(password);
+      await this.clickLoginButtton.click();
     }
     
     async login(custody,email, password, captcha) {

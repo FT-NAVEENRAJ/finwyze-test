@@ -23,6 +23,11 @@ export default class InvestorDetails{
         this.thirdHolderFatcaDetails = page.locator('[id="fatcaPending three"]');
         this.occupationDetailsProceed = page.getByRole('button', { name: 'Proceed' });
 
+        // Kotak Application
+
+        this.clickViewInvestor = page.locator('//button[text()="View Investors"]');
+        this.clickViewAppliocation = page.locator('//button[text()="View Applications"]');
+        
 
     }
 

@@ -52,7 +52,7 @@ test("TC_03: Complete the basic application information to initiate the onboardi
 test("TC_04: Verify the details are fetched after entering PAN", async () => {
     await new Promise(resolve => setTimeout(resolve, 2000));
     const investordetails = new InvestorDetails(page2);
-    await investordetails.investorProfileFirstHolder("CURPA1355D");
+    await investordetails.investorProfileFirstHolder("CASPB5084M");
     await new Promise(resolve => setTimeout(resolve, 1000));
   });
 test('TC_05: Verify that clicking "Fetch KYC Details" opens the KYC section', async () => {

@@ -9,14 +9,22 @@ export default class ApplicationBasicInformationPopup {
         this.selectApplicationMode = page.locator('//select[@id="ApplicationMode"]');
         this.selectJurisdictionOfStampPaper = page.locator('//select[@id="jurisdiction"]');
         this.selectDistributorForInvestment = page.locator('//input[@value="NO"]');
+        this.selectProductType = page.locator('//select[@id="productType"]'); //FPI FDI
+        this.selectConsitutionType = page.locator('//select[@id="account_opening__2__constitution_code"]');  
         this.clickProceed = page.getByText('Proceed');
     }
 
+    async kotakNewApplicationPopup(){
+        await this.clickNewApplication.click();
+        await this.selectProductType.selectOption();
+        await this.selectConsitutionType.selectOption();
+        await this.selectApplicationType.selectOption();
+    }
     async applicationBasicInformationPopup(number) {
         await this.clickNewApplication.click();
         await new Promise(resolve => setTimeout(resolve, 3000));
-        // await this.selectInvestorType.selectOption("INDIVIDUAL");
-        // await this.selectResidentialType.selectOption("RESIDENT");
+        await this.selectInvestorType.selectOption("INDIVIDUAL");
+        await this.selectResidentialType.selectOption("RESIDENT");
         await this.selectApplicationType.selectOption("DEMAT+PMS");//DEMAT+PMS+BANK
         await this.selectApplicationMode.selectOption("DIGITAL");
         await this.selectJurisdictionOfStampPaper.selectOption("MAHARASHTRA");
