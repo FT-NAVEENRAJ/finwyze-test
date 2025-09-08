@@ -41,7 +41,7 @@ test("TC_03: Complete the basic application information to initiate the onboardi
   try {
     await new Promise(resolve => setTimeout(resolve, 3000));
     const basicInformation = new ApplicationBasicInformationPopup(page2);
-    await basicInformation.applicationBasicInformationPopup();
+    await basicInformation.applicationBasicInformationPopup("1");
     console.log("Application Basic Details saved Successfully");
     await new Promise(resolve => setTimeout(resolve, 2000));
      } 

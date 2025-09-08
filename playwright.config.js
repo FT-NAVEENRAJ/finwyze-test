@@ -3,7 +3,8 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
   testDir: './tests',
   testIgnore: ['**/loadTest/**'],
-  workers: 1, 
+  timeout: 120000,
+  workers: 1000,
   use: {
     headless: false,
     screenshot: 'on',
@@ -89,6 +90,7 @@ projects: [
 
   
   reporter: [
+    ['list'], // console output
     ['html', { outputFolder: 'playwright-report', open: 'never' }],
     ['allure-playwright'],
   ],

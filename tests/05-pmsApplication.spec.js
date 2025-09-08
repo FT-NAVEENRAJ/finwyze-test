@@ -225,7 +225,7 @@ test.describe('AMC Reviewer ', () => {
         });
     test("TC_02: To click the View Task page for AMC Reviewer page", async()=>{
     
-          await new Promise(resolve => setTimeout(resolve, 3000));
+          await new Promise(resolve => setTimeout(resolve, 10000));
           if (!globalData.applicationId) {
             throw new Error("applicationId is not set in globalData");
           }

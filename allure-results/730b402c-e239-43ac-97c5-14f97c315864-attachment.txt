@@ -1,0 +1,1 @@
+Mode of operation button is either hidden or disabled

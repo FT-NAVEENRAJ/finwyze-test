@@ -1,0 +1,47 @@
+Failed to complete Application Basic Information: locator.click: Target page, context or browser has been closed
+Call log:
+  - waiting for getByText('New Application')
+
+    at ApplicationBasicInformationPopup.applicationBasicInformationPopup (/Users/fintuple/Documents/Projects/GitHub/finwyze-test/pages/newApplicationPopup.js:16:40)
+    at /Users/fintuple/Documents/Projects/GitHub/finwyze-test/tests/IPRU_E2E.spec.js:44:28 {
+  [Symbol(step)]: {
+    stepId: 'pw:api@2',
+    location: {
+      file: '/Users/fintuple/Documents/Projects/GitHub/finwyze-test/pages/newApplicationPopup.js',
+      line: 16,
+      column: 40,
+      function: 'ApplicationBasicInformationPopup.applicationBasicInformationPopup'
+    },
+    category: 'pw:api',
+    title: "Click getByText('New Application')",
+    apiName: 'locator.click',
+    params: {
+      selector: 'internal:text="New Application"i',
+      strict: true,
+      timeout: 0
+    },
+    boxedStack: undefined,
+    steps: [],
+    attachmentIndices: [],
+    info: TestStepInfoImpl {
+      annotations: [],
+      _testInfo: [TestInfoImpl],
+      _stepId: 'pw:api@2',
+      skip: [Function (anonymous)]
+    },
+    complete: [Function: complete],
+    endWallTime: 1754927328604,
+    error: {
+      message: 'Error: locator.click: Target page, context or browser has been closed\n' +
+        'Call log:\n' +
+        "\x1B[2m  - waiting for getByText('New Application')\x1B[22m\n",
+      stack: 'Error: locator.click: Target page, context or browser has been closed\n' +
+        'Call log:\n' +
+        "\x1B[2m  - waiting for getByText('New Application')\x1B[22m\n" +
+        '\n' +
+        '    at ApplicationBasicInformationPopup.applicationBasicInformationPopup (/Users/fintuple/Documents/Projects/GitHub/finwyze-test/pages/newApplicationPopup.js:16:40)\n' +
+        '    at /Users/fintuple/Documents/Projects/GitHub/finwyze-test/tests/IPRU_E2E.spec.js:44:28',
+      cause: undefined
+    }
+  }
+}

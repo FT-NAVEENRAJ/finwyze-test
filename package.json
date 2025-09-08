@@ -4,9 +4,13 @@
   "description": "",
   "main": "learing.js",
   "scripts": {
+    "test": "npx playwright test",
     "test:smoke": "npx playwright test --grep '@smoke'",
     "test:sanity": "npx playwright test --grep '@sanity'",
-    "test:priority": "npm run test:smoke && npm run test:sanity"
+    "test:priority": "npm run test:smoke && npm run test:sanity",
+    "report": "npx playwright show-report",
+    "send:report": "node pages/sendReport.js",
+    "test:email": "npx playwright test && node pages/sendReport.js"
   },
   "keywords": [],
   "author": "",
@@ -18,7 +22,11 @@
     "allure-playwright": "^3.2.1"
   },
   "dependencies": {
+    "@azure/identity": "^4.11.1",
+    "@microsoft/microsoft-graph-client": "^3.0.7",
     "dayjs": "^1.11.13",
+    "isomorphic-fetch": "^3.0.0",
+    "nodemailer": "^7.0.6",
     "playwright-m365-helpers": "^0.0.5",
     "xlsx": "^0.18.5"
   }

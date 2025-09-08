@@ -1,0 +1,6 @@
+Failed to complete Application Basic Information: locator.click: Test ended.
+Call log:
+  - waiting for getByText('New Application')
+
+    at ApplicationBasicInformationPopup.applicationBasicInformationPopupBank (/Users/fintuple/Documents/Projects/GitHub/finwyze-test/pages/newApplicationPopup.js:29:40)
+    at /Users/fintuple/Documents/Projects/GitHub/finwyze-test/tests/IPRU_E2E.spec.js:42:28

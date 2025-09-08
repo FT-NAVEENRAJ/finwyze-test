@@ -1,0 +1,22 @@
+Failed to complete Application Basic Information: locator.selectOption: Test ended.
+Call log:
+  - waiting for locator('//select[@formcontrolname="residentialType"]')
+    - locator resolved to <select _ngcontent-ng-c4070923152="" formcontrolname="residentialType" ng-reflect-name="residentialType" class="ft-select upper-case ng-untouched ng-pristine ng-valid">…</select>
+  - attempting select option action
+    2 × waiting for element to be visible and enabled
+      - did not find some options
+    - retrying select option action
+    - waiting 20ms
+    2 × waiting for element to be visible and enabled
+      - did not find some options
+    - retrying select option action
+      - waiting 100ms
+    177 × waiting for element to be visible and enabled
+        - did not find some options
+      - retrying select option action
+        - waiting 500ms
+    - waiting for element to be visible and enabled
+  - element was detached from the DOM, retrying
+
+    at ApplicationBasicInformationPopup.applicationBasicInformationPopup (/Users/fintuple/Documents/Projects/GitHub/finwyze-test/pages/newApplicationPopup.js:22:42)
+    at /Users/fintuple/Documents/Projects/GitHub/finwyze-test/tests/a.spec.js:41:5
